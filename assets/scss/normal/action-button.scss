@@ -1,0 +1,16 @@
+.action-button {
+  min-height: 1.6rem;
+  min-width:  1.6rem;
+
+  height: 1.6rem;
+  width:  1.6rem;
+
+  margin: 0 1rem;
+
+  cursor: pointer;
+
+  &__icon {
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,19 @@
+.copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+
+  font-size: 1.6rem;
+
+  &__company {
+    padding-right: 1rem;
+  }
+
+  &__date {
+
+  }
+
+}

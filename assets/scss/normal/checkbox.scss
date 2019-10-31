@@ -1,0 +1,34 @@
+.checkbox {
+  display: flex;
+  align-items: center;
+
+  height: 100%;
+
+  padding-right: 3rem;
+
+  cursor: pointer;
+
+  &__title {
+
+
+    font-size: 1.4rem;
+    white-space: nowrap;
+  }
+
+  &__value {
+    max-height: 2rem;
+    padding-left: 1rem;
+
+    &:last-of-type {
+      display: none;
+    }
+  }
+
+  &--active .checkbox__value:first-of-type {
+    display: none;
+  }
+
+  &--active .checkbox__value:last-of-type {
+    display: block;
+  }
+}

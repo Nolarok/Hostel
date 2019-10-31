@@ -1,0 +1,72 @@
+@import "vars";
+@import "fonts";
+
+@import "normal";
+
+
+:root {
+  font-size: 10px;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+
+  font-family: 'Roboto', Arial, serif;
+  color: $color-main;
+}
+
+.main-container {
+  display: grid;
+
+  grid-template-areas:
+    "aside header"
+    "aside main"
+    "footer footer";
+
+  grid-template-rows: 10rem 1fr 3rem;
+  grid-template-columns: 25rem 1fr;
+
+  height: 100vh;
+}
+
+.main-header {
+  grid-area: header;
+  display: flex;
+  justify-content: flex-end;
+
+  background: $color-main;
+  color: $color-contrast;
+}
+
+.main-aside {
+  grid-area: aside;
+
+  height: 100%;
+
+  background: $color-gray-1;
+  color: $color-main;
+}
+
+.main-footer {
+  grid-area: footer;
+
+  background: $color-main;
+  color: $color-contrast;
+}
+
+.main-content {
+  box-sizing: border-box;
+  grid-area: main;
+
+  height: 100%;
+
+  padding: 3rem 5%;
+
+  background: $color-contrast;
+  color: $color-main;
+}
+
+.hidden {
+  display: none;
+}

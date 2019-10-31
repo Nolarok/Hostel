@@ -1,0 +1,109 @@
+.main-nav {
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-areas:
+    "title hamb"
+    "nav nav";
+
+  grid-template-rows: 10rem auto;
+  grid-template-columns: 1fr 8rem;
+
+  align-items: center;
+
+  &__header {
+    grid-area: title;
+    justify-self: start;
+
+    margin: 0 0 0 2.1rem;
+
+    font-size: 2.4rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__hamburger {
+    grid-area: hamb;
+    justify-self: end;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    height: 3rem;
+    width: 3.8rem;
+
+    margin: 0 2.1rem 0 0;
+
+    cursor: pointer;
+  }
+
+  &__hamburger-line {
+    height: .6rem;
+    width: 100%;
+
+    border-radius: .4rem;
+    background: $color-main;
+
+    box-shadow: 0 .3rem .4rem 0 rgba(0,0,0,0.3);
+  }
+
+  &__list {
+    grid-area: nav;
+
+    list-style: none;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    box-sizing: border-box;
+
+    height: 4.4rem;
+    width: 100%;
+
+    background: $color-contrast;
+
+    border-bottom: .2rem solid $color-secondary;
+    border-right: .2rem solid $color-gray-1;
+
+    &:hover {
+      //TODO
+    }
+
+    &--active {
+      background: $color-main;
+      border-right: none;
+    }
+  }
+
+  &__item--active &__link {
+    color: $color-contrast;
+
+  }
+
+  &__link {
+    display: flex;
+
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+
+    padding-left: 2rem;
+
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: $color-main;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+}

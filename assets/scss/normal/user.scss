@@ -1,0 +1,47 @@
+.user {
+  display: grid;
+
+  grid-template-rows: 100%;
+  grid-template-columns: repeat(3, min-content);
+
+  grid-gap: 1rem;
+
+  justify-items: end;
+  align-items: center;
+
+  height: 100%;
+
+  padding-right: 2rem;
+
+  &__avatar-container {
+    width: 5.6rem;
+    height: 5.6rem;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+    background: $color-contrast;
+
+    box-shadow: 0 .5rem .10rem 0 rgba(0,0,0,0.5);
+  }
+
+  &__avatar {
+
+  }
+
+  &__name {
+    font-size: 2.4rem;
+    color: $color-contrast;
+
+    white-space: nowrap;
+  }
+
+  &__logout {
+    height: 5.1rem;
+    width: 5.8rem;
+
+    //filter: invert(100%) drop-shadow(16px 16px 20px red);
+    fill: #eeeeee;
+  }
+
+}

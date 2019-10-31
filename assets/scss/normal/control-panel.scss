@@ -1,0 +1,16 @@
+.control-panel {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+
+  &__controls {
+    display: flex;
+  }
+
+}
