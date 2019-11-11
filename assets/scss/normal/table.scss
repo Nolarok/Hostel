@@ -1,213 +1,213 @@
-.table {
-
-  display: grid;
-
-  grid-template-areas:
-    "content content"
-    "actions pagination";
-
-  grid-template-rows: 1fr 4rem;
-  grid-template-columns: 1fr 1fr;
-
-
-  &__content {
-    grid-area: content;
-    display: grid;
-
-    grid-template-columns: 4rem repeat(3, 1fr) minmax(6rem, 12rem);
-    grid-template-rows: 3.5rem;
-    grid-auto-rows: minmax(auto, 3rem);
-
-    &--scroll {
-      overflow-x: scroll;
-    }
-  }
-
-
-  &__cell {
-    display: flex;
-    align-items: center;
-
-    padding: 0 1rem;
-
-    border-bottom: .1rem solid $color-gray-2;
-    border-left: .1rem solid $color-gray-2;
-
-    color: $color-secondary;
-    font-size: 1.2rem;
-    font-weight: 500;
-
-    &--num {
-      border-left: none;
-
-      justify-content: center;
-    }
-
-    &--actions {
-      justify-content: space-around;
-    }
-
-    &--header {
-      justify-content: center;
-
-      border-left: none;
-
-      font-size: 1.8rem;
-      font-weight: 700;
-
-      color: $color-main;
-    }
-  }
-
-  &__manage {
-    grid-area: actions;
-
-    display: flex;
-    align-items: center;
-
-    .action-button {
-      height: 2rem;
-      width: 2rem;
-    }
-  }
-
-  &__pagination {
-    grid-area: pagination;
-    justify-self: end;
-
-    display: flex;
-    align-items: center;
-
-    margin: 0;
-    padding: 0 3rem 0 0;
-
-    list-style: none;
-  }
-
-  &__pagination-left {
-    width: 0;
-    height: 0;
-
-    border-left: .5rem solid transparent;
-    border-right: .5rem solid transparent;
-
-    border-top: .8rem solid $color-main;
-
-    transform: rotate(90deg);
-
-    cursor: pointer;
-  }
-
-  &__pagination-right {
-    width: 0;
-    height: 0;
-
-    border-left: .5rem solid transparent;
-    border-right: .5rem solid transparent;
-
-    border-top: .8rem solid $color-main;
-
-    transform: rotate(-90deg);
-
-    cursor: pointer;
-  }
-
-  &__pagination-button {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    height: 2rem;
-    width: 2rem;
-
-    margin: 0 .3rem;
-
-    border-radius: 50%;
-
-    background: $color-main;
-    color: $color-contrast;
-
-    cursor: pointer;
-  }
-}
-
-
-.table--large {
-  position: relative;
-  width: 100%;
-
-  .table__nums {
-    position: absolute;
-
-    display: grid;
-
-    grid-template-columns: 4.1rem;
-    grid-template-rows: 3.5rem;
-    grid-auto-rows: minmax(auto, 3rem);
-
-    background: $color-contrast;
-    z-index: 1;
-
-    .table__cell {
-      border-right: .1rem solid $color-gray-2;
-      border-left: none;
-
-      &--header {
-        border-right: none;
-      }
-    }
-  }
-
-  .table__actions {
-    position: absolute;
-
-    display: grid;
-
-    top: 0;
-    right: 0;
-
-    grid-template-columns: 12.1rem;
-    grid-template-rows: 3.5rem;
-    grid-auto-rows: minmax(auto, 3rem);
-
-    background: $color-contrast;
-    z-index: 1;
-
-    .table__cell {
-      border-right: .1rem solid $color-gray-2;
-      //border-left: none;
-
-      &--header {
-        border-right: none;
-      }
-    }
-
-  }
-
-  .table__content {
-    position: relative;
-    overflow-x: scroll;
-    padding: 0 4rem;
-
-    .table__cell--num {
-      display: none;
-    }
-
-    .table__cell--last {
-      padding-right: 12rem;
-    }
-
-    .table__cell--actions {
-      display: none;
-    }
-
-    .table__cell {
-      white-space: nowrap;
-    }
-
-    max-width: 100%;
-    grid-template-columns: repeat(3, minmax(50rem, 1fr));
-  }
-
-}
+//.table {
+//
+//  display: grid;
+//
+//  grid-template-areas:
+//    "content content"
+//    "actions pagination";
+//
+//  grid-template-rows: 1fr 4rem;
+//  grid-template-columns: 1fr 1fr;
+//
+//
+//  &__content {
+//    grid-area: content;
+//    display: grid;
+//
+//    grid-template-columns: 4rem repeat(3, 1fr) minmax(6rem, 12rem);
+//    grid-template-rows: 3.5rem;
+//    grid-auto-rows: minmax(auto, 3rem);
+//
+//    &--scroll {
+//      overflow-x: scroll;
+//    }
+//  }
+//
+//
+//  &__cell {
+//    display: flex;
+//    align-items: center;
+//
+//    padding: 0 1rem;
+//
+//    border-bottom: .1rem solid $color-gray-2;
+//    border-left: .1rem solid $color-gray-2;
+//
+//    color: $color-secondary;
+//    font-size: 1.2rem;
+//    font-weight: 500;
+//
+//    &--num {
+//      border-left: none;
+//
+//      justify-content: center;
+//    }
+//
+//    &--actions {
+//      justify-content: space-around;
+//    }
+//
+//    &--header {
+//      justify-content: center;
+//
+//      border-left: none;
+//
+//      font-size: 1.8rem;
+//      font-weight: 700;
+//
+//      color: $color-main;
+//    }
+//  }
+//
+//  &__manage {
+//    grid-area: actions;
+//
+//    display: flex;
+//    align-items: center;
+//
+//    .action-button {
+//      height: 2rem;
+//      width: 2rem;
+//    }
+//  }
+//
+//  &__pagination {
+//    grid-area: pagination;
+//    justify-self: end;
+//
+//    display: flex;
+//    align-items: center;
+//
+//    margin: 0;
+//    padding: 0 3rem 0 0;
+//
+//    list-style: none;
+//  }
+//
+//  &__pagination-left {
+//    width: 0;
+//    height: 0;
+//
+//    border-left: .5rem solid transparent;
+//    border-right: .5rem solid transparent;
+//
+//    border-top: .8rem solid $color-main;
+//
+//    transform: rotate(90deg);
+//
+//    cursor: pointer;
+//  }
+//
+//  &__pagination-right {
+//    width: 0;
+//    height: 0;
+//
+//    border-left: .5rem solid transparent;
+//    border-right: .5rem solid transparent;
+//
+//    border-top: .8rem solid $color-main;
+//
+//    transform: rotate(-90deg);
+//
+//    cursor: pointer;
+//  }
+//
+//  &__pagination-button {
+//    display: flex;
+//
+//    align-items: center;
+//    justify-content: center;
+//
+//    height: 2rem;
+//    width: 2rem;
+//
+//    margin: 0 .3rem;
+//
+//    border-radius: 50%;
+//
+//    background: $color-main;
+//    color: $color-contrast;
+//
+//    cursor: pointer;
+//  }
+//}
+//
+//
+//.table--large {
+//  position: relative;
+//  width: 100%;
+//
+//  .table__nums {
+//    position: absolute;
+//
+//    display: grid;
+//
+//    grid-template-columns: 4.1rem;
+//    grid-template-rows: 3.5rem;
+//    grid-auto-rows: minmax(auto, 3rem);
+//
+//    background: $color-contrast;
+//    z-index: 1;
+//
+//    .table__cell {
+//      border-right: .1rem solid $color-gray-2;
+//      border-left: none;
+//
+//      &--header {
+//        border-right: none;
+//      }
+//    }
+//  }
+//
+//  .table__actions {
+//    position: absolute;
+//
+//    display: grid;
+//
+//    top: 0;
+//    right: 0;
+//
+//    grid-template-columns: 12.1rem;
+//    grid-template-rows: 3.5rem;
+//    grid-auto-rows: minmax(auto, 3rem);
+//
+//    background: $color-contrast;
+//    z-index: 1;
+//
+//    .table__cell {
+//      border-right: .1rem solid $color-gray-2;
+//      //border-left: none;
+//
+//      &--header {
+//        border-right: none;
+//      }
+//    }
+//
+//  }
+//
+//  .table__content {
+//    position: relative;
+//    overflow-x: scroll;
+//    padding: 0 4rem;
+//
+//    .table__cell--num {
+//      display: none;
+//    }
+//
+//    .table__cell--last {
+//      padding-right: 12rem;
+//    }
+//
+//    .table__cell--actions {
+//      display: none;
+//    }
+//
+//    .table__cell {
+//      white-space: nowrap;
+//    }
+//
+//    max-width: 100%;
+//    grid-template-columns: repeat(3, minmax(50rem, 1fr));
+//  }
+//
+//}
