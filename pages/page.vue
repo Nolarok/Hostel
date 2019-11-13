@@ -8,7 +8,7 @@
       :max-size="10000000"
     />
 
-    <c-date-picker/>
+<!--    <c-date-picker/>-->
   </div>
 </template>
 

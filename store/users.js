@@ -4,19 +4,21 @@ export const state = () => ({
   headers: ['id', '#', 'Ф.И.О', 'Роль', 'Действия'],
 
   table: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [234422, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
+    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [234422, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [123, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
   ],
 
   _tableMod: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
-    [234422, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create'] ],
+    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [234422, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [123, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
   ],
 
   options: {
@@ -39,7 +41,7 @@ export const state = () => ({
 
     table: {
       rowsPerPage: 2,
-      offset: 2,
+      offset: 1,
     }
   }
 })
@@ -64,8 +66,13 @@ export const mutations = {
   },
 
   CHANGE_ROWS_PER_PAGE(state, value) {
-    console.log(state.options, value)
     state.options.table.rowsPerPage = value
+
+    const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
+
+    if (state.options.table.offset + 1 >= paginationLength) {
+      state.options.table.offset = paginationLength - 1
+    }
   },
 
   FILTER_BY_COL(state, value) {
@@ -147,16 +154,34 @@ export const getters = {
 
     const {rowsPerPage, offset} = state.options.table
     const {_tableMod} = state
-    const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
+    const paginationLength = Math.ceil(state._tableMod.length / rowsPerPage)
 
-    if (_tableMod.length < rowsPerPage) {
-      console.log('------', _tableMod.length)
+    console.log('HEADERD', {
+      tableLength: state._tableMod,
+      rowsPerPage,
+      offset,
+      paginationLength,
+      result: (offset + 1) === paginationLength
+        ? _tableMod.length - rowsPerPage * offset
+        : rowsPerPage
+    })
+
+    if (paginationLength === 1) {
+      console.log('paginationLength === 1', _tableMod.length)
       return _tableMod.length
     }
 
-    return (offset + 1) === paginationLength
-      ? _tableMod.length - rowsPerPage * offset
-      : rowsPerPage
+    if (offset + 1 >= paginationLength ) {
+      // console.log('offset + 1 >= paginationLength', {rowsPerPage, offset, paginationLength, result: rowsPerPage * offset + rowsPerPage - _tableMod.length})
+      return rowsPerPage - (rowsPerPage * offset + rowsPerPage - _tableMod.length)
+    }
+
+    console.log('rowsPerPage', rowsPerPage)
+    return rowsPerPage
+
+    // return (offset + 1) === paginationLength
+    //   ? _tableMod.length - rowsPerPage * offset
+    //   : rowsPerPage
   },
 
   GET_ROW_INFO: (state) => (position) => {
@@ -164,13 +189,21 @@ export const getters = {
 
     const start = offset * rowsPerPage
     const end = start + rowsPerPage
-    const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
+    // const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
 
+    // console.log({
+    //   rowsPerPage,
+    //   offset,
+    //   result :position + ((offset * rowsPerPage) > state._tableMod.length
+    //     ? state._tableMod.length - 1
+    //     : offset * rowsPerPage)
+    // })
 
-    console.log({position, offset, rowsPerPage, result: position + offset * paginationLength})
-
-    const id = state._tableMod[position + offset * paginationLength][0]
-    console.log('COLOR', state.options.rows.colors[id])
+    const id = state._tableMod[
+      position + ((offset * rowsPerPage) > state._tableMod.length
+      ? state._tableMod.length - 1
+      : offset * rowsPerPage
+    )][0]
 
     return {
       position,
@@ -206,7 +239,6 @@ export const getters = {
   },
 
   GET_PAGINATION_LENGTH(state) {
-    console.log('GET_PAGINATION_LENGTH', Math.ceil(state._tableMod.length / state.options.table.rowsPerPage))
     return Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
   },
 
@@ -227,7 +259,7 @@ function stringToDate(date) {
   const regexp = /(\d{2}).(\d{2}).(\d{2,4})/
   const parsedDate = date.match(regexp)
 
-  if(!parsedDate) return null
+  if (!parsedDate) return null
 
   return `${parsedDate[1]}/${parsedDate[0]}/${parsedDate[2]}`
 

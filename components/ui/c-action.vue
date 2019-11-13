@@ -96,7 +96,6 @@
           },
           create: () => {
             this.openModal()
-
           },
           fill: () => {
             this.openModal()

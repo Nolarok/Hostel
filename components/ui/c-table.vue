@@ -25,11 +25,27 @@
       :length="GET_PAGINATION_LENGTH"
       :action="CHANGE_OFFSET"
     />
-    <c-dropdown
+
+    <c-drop
       @change="handlerChangeRowsPerPage"
-      :data="[1, 2, 3, 5, 10, 20]"
-      :active-index="[1, 2, 3, 5, 10, 20].indexOf(GET_ROWS_PER_PAGE)"
-    />
+    >
+      <template #default="scope">
+        <c-menu
+          :data="[1, 2, 3, 5, 10, 20]"
+          :default="0"
+          :action="scope.controls.setValue"
+        />
+      </template>
+    </c-drop>
+
+    <c-drop icon="calendar">
+      <template #default="scope">
+        <c-date-picker
+          :action="scope.controls.setValue"
+        />
+      </template>
+    </c-drop>
+
   </div>
 </template>
 
@@ -41,10 +57,13 @@
   import CHeadRow from "./c-head-row"
   import CDropdown from "./c-dropdown"
   import CInput from "./c-input"
+  import CDrop from "./c-drop"
+  import CMenu from "./c-menu"
+  import CDatePicker from "./c-date-picker"
 
   export default {
     name: "c-table",
-    components: {CInput, CDropdown, CHeadRow, CPagination, CRow, CCell},
+    components: {CDatePicker, CMenu, CDrop, CInput, CDropdown, CHeadRow, CPagination, CRow, CCell},
     props: {
       storePath: {
         type: String,
