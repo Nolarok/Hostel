@@ -92,6 +92,7 @@
             this.openModal()
           },
           edit: () => {
+
             this.openModal()
           },
           create: () => {

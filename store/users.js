@@ -40,9 +40,17 @@ export const state = () => ({
     },
 
     table: {
-      rowsPerPage: 2,
-      offset: 1,
+      rowsPerPage: 10,
+      offset: 0,
     }
+  },
+
+  colors: {
+    654354: '#ffffff',
+    654356: '#ffffff',
+    123411: '#ffffff',
+    654322: '#ffffff',
+    234422: '#ffffff',
   }
 })
 
@@ -139,8 +147,11 @@ export const mutations = {
   },
 
   FILL_ROW(state, payload) {
-    Vue.set(state.options.rows.colors, payload.id, payload.color)
+    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
+    Object.assign(state.options.rows.colors, {[payload.id]: payload.color})
+    // Vue.set(state.options.rows.colors, payload.id, payload.color)
     // state.options.rows.colors[payload.id] = payload.color
+    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
   }
 }
 
@@ -186,7 +197,7 @@ export const getters = {
 
   GET_ROW_INFO: (state) => (position) => {
     const {offset, rowsPerPage} = state.options.table
-
+    console.log('============')
     const start = offset * rowsPerPage
     const end = start + rowsPerPage
     // const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)

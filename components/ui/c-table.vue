@@ -75,7 +75,16 @@
       return {}
     },
 
-    computed: {},
+    computed: {
+      ...mapGetters('users', [
+        'GET_HEADERS',
+        'GET_TABLE_HEIGHT',
+        'GET_OPTIONS',
+        'GET_ROW_INFO',
+        'GET_PAGINATION_LENGTH',
+        'GET_ROWS_PER_PAGE'
+      ]),
+    },
 
     methods: {
       handlerChangeRowsPerPage(value) {
@@ -94,17 +103,17 @@
     },
 
     beforeCreate() {
-      this.$options.computed = {
-        ...this.$options.computed,
-        ...mapGetters(this.$options.propsData.storePath, [
-          'GET_HEADERS',
-          'GET_TABLE_HEIGHT',
-          'GET_OPTIONS',
-          'GET_ROW_INFO',
-          'GET_PAGINATION_LENGTH',
-          'GET_ROWS_PER_PAGE'
-        ]),
-      }
+      // this.$options.computed = {
+      //   ...this.$options.computed,
+      //   ...mapGetters(this.$options.propsData.storePath, [
+      //     'GET_HEADERS',
+      //     'GET_TABLE_HEIGHT',
+      //     'GET_OPTIONS',
+      //     'GET_ROW_INFO',
+      //     'GET_PAGINATION_LENGTH',
+      //     'GET_ROWS_PER_PAGE'
+      //   ]),
+      // }
 
       // this.$options.computed = {
       //   ...this.$options.computed,
