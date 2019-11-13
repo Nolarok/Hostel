@@ -82,12 +82,12 @@
 
       closeAndClear() {
         this.cancel()
-        this.CLEAR()
+        // this.CLEAR()
       },
 
       closeAndConfirm() {
         this.confirm(this.GET_ALL_VALUES)
-        this.CLEAR()
+        // this.CLEAR()
         this.cancel()
       }
     }

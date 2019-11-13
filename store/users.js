@@ -4,21 +4,21 @@ export const state = () => ({
   headers: ['id', '#', 'Ф.И.О', 'Роль', 'Действия'],
 
   table: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [234422, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [1, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
+    [2, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [3, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [4, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [5, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [6, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
   ],
 
   _tableMod: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [234422, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [1, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
+    [2, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [3, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [4, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [5, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [6, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
   ],
 
   options: {
@@ -46,12 +46,15 @@ export const state = () => ({
   },
 
   colors: {
-    654354: '#ffffff',
-    654356: '#ffffff',
-    123411: '#ffffff',
-    654322: '#ffffff',
-    234422: '#ffffff',
-  }
+    1: '#ffffff',
+    2: '#ffffff',
+    3: '#ffffff',
+    4: '#ffffff',
+    5: '#ffffff',
+    6: '#ffffff',
+  },
+
+  hz: []
 })
 
 //TODO ГЛУБОКОЙ КОПИРОВАНИЕ!!!!!!
@@ -61,9 +64,43 @@ export const actions = {
     let data
     commit('SET_TABLE', data)
   },
+
+  GET_ROW_INFO1({state, commit}) {
+    console.log('state._tableMod', state)
+    const result = state._tableMod.map((item, index) => {
+      const position = index
+
+      const {offset, rowsPerPage} = state.options.table
+      const start = offset * rowsPerPage
+      const end = start + rowsPerPage
+
+      const id = state._tableMod[
+      position + ((offset * rowsPerPage) > state._tableMod.length
+          ? state._tableMod.length - 1
+          : offset * rowsPerPage
+      )][0]
+
+      return {
+        position,
+        id,
+        data: state._tableMod.slice(start, end)[position],
+        options: {
+          color: state.colors[id] || '#ffffff'
+        }
+      }
+    })
+
+    console.log('RESULT', result)
+
+    commit('SET_HZ', result)
+  },
 }
 
 export const mutations = {
+  SET_HZ(state, data) {
+    state.hz = data
+  },
+
   SET_TABLE(state, value) {
     state.table = value
     state._tableMod = value
@@ -140,6 +177,9 @@ export const mutations = {
     state.table.push(result)
     state._tableMod.push(result)
 
+    console.log('123132312132132123', payload)
+    state.hz.push({id, data: result, options: {color: '#ffffff'}, position: state.table.length - 1})
+
     // state.options.rows.colors[id] = '#ffffff'
 
     console.log(state)
@@ -147,11 +187,21 @@ export const mutations = {
   },
 
   FILL_ROW(state, payload) {
-    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
-    Object.assign(state.options.rows.colors, {[payload.id]: payload.color})
+    console.log('state.colors', Object.keys(state.colors))
+    console.log('state.colors', Object.values(state.colors))
+    let obj = Object.assign(state.colors, {[payload.id]: payload.color})
+
+    Vue.set(state, 'colors', obj)
+    // Vue.set(state.hz, payload.id, obj)
+
+    let item = state.hz.find(item => item.id === payload.id)
+    item.options.color = payload.color
+
+
     // Vue.set(state.options.rows.colors, payload.id, payload.color)
     // state.options.rows.colors[payload.id] = payload.color
-    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
+    console.log('state.colors', Object.keys(state.colors))
+    console.log('state.colors', Object.values(state.colors))
   }
 }
 
@@ -221,7 +271,7 @@ export const getters = {
       id,
       data: state._tableMod.slice(start, end)[position],
       options: {
-        color: state.options.rows.colors[id] || '#ffffff'
+        color: state.colors[id] || '#ffffff'
       }
     }
   },
@@ -231,6 +281,8 @@ export const getters = {
 
     const start = offset * rowsPerPage
     const end = start + rowsPerPage
+
+    console.log('--3-32--32[', position.i, state._tableMod.slice(start, end))
 
     return {
       position,

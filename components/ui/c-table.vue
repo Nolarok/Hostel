@@ -16,7 +16,7 @@
       <c-row
         v-for="(row, index) in GET_TABLE_HEIGHT"
         :key="row[0]"
-        :info="GET_ROW_INFO(index)"
+        :info="hz[index]"
         :storePath="storePath"
       />
       </tbody>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from "vuex"
+  import {mapGetters, mapMutations, mapState, mapActions} from "vuex"
   import CCell from "./c-cell"
   import CRow from "./c-row"
   import CPagination from "./c-pagination"
@@ -76,6 +76,7 @@
     },
 
     computed: {
+      ...mapState('users', ['hz']),
       ...mapGetters('users', [
         'GET_HEADERS',
         'GET_TABLE_HEIGHT',
@@ -84,6 +85,9 @@
         'GET_PAGINATION_LENGTH',
         'GET_ROWS_PER_PAGE'
       ]),
+      test() {
+        return this.$store.dispatch("users/GET_ROW_INFO1")
+      }
     },
 
     methods: {
@@ -94,7 +98,7 @@
       handlerInputSearch(value) {
         this.FILTER_BY_COL(value)
       },
-
+      ...mapActions('users', ['GET_ROW_INFO1']),
       ...mapMutations('users', [
         'CHANGE_OFFSET',
         'CHANGE_ROWS_PER_PAGE',
@@ -119,10 +123,13 @@
       //   ...this.$options.computed,
       //   ...mapGetters(this.$options.propsData.storePath, [])
       // }
+      // this.dispatch('GET_ROW_INFO1')
+
+
     },
 
-    mounted() {
-
+    beforeMount() {
+      this.$store.dispatch("users/GET_ROW_INFO1")
     },
 
     update() {
