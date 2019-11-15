@@ -23,3 +23,23 @@ $img-trash: '~assets/img/trash-solid.svg';
 $img-pencil: '~assets/img/user-edit-solid.svg';
 $img-user-slash: '~assets/img/user-slash-solid.svg';
 $img-user: '~assets/img/user-solid.svg';
+
+@mixin border-top-radius($radius) {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-radius($radius) {
+  border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin border-left-radius($radius) {
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin border-right-radius($radius) {
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}

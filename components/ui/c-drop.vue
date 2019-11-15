@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dropmenu"
+    :class="'dropmenu ' + customClass"
     @click="handlerDropdownClick"
   >
     <div class="dropmenu__value">
@@ -16,14 +16,16 @@
         {{valueToString(value)}}
       </div>
     </div>
-    <div
-      v-if="isOpened"
-      class="dropmenu__content"
-    >
-      <slot :controls="{setValue}">
+    <transition name="fade" mode="out-in" appear>
+      <div
+        v-if="isOpened"
+        class="dropmenu__content"
+      >
+        <slot :controls="{setValue}">
 
-      </slot>
-    </div>
+        </slot>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -39,6 +41,8 @@
         type: String,
         default: 'triangle'
       },
+
+      default: {},
 
       placeholder: {
         type: String,
@@ -56,15 +60,14 @@
     data() {
       return {
         isOpened: false,
-        value: ''
+        value: this.default || '',
+        customClass: ''
       }
     },
 
     methods: {
       handlerDropdownClick() {
         this.isOpened = !this.isOpened
-
-        // handlerWindowClick = handlerWindowClick.bind(this)
 
         setTimeout(() => {
           if (this.isOpened) {
@@ -84,12 +87,24 @@
         this.value = value
         this.$emit('change', this.value)
       }
+    },
+
+    mounted() {
+      this.$emit('change', this.value)
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../../assets/scss/vars";
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 
   .dropmenu {
     box-sizing: border-box;
@@ -116,12 +131,22 @@
       border-radius: .5rem;
 
       font-size: 1.8rem;
+
+      user-select: none;
+      cursor: pointer;
+
+      > div {
+        width: 100%;
+
+        padding-right: 2.8rem;
+      }
     }
 
     &__content {
       box-sizing: border-box;
       position: absolute;
 
+      top: calc(100% + .1rem);
       left: 0;
       min-width: 100%;
 

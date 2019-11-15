@@ -22,8 +22,8 @@
       },
 
       default: {
-        type: Number,
-        default: 0
+        type: Object,
+        default: () => {return {index: 0}}
       },
 
       action: {
@@ -34,7 +34,7 @@
 
     data() {
       return {
-        value: ''
+        value: this.data[this.default.index] || this.default.value
       }
     },
 
@@ -44,6 +44,10 @@
         this.$emit('change', this.value)
         this.action(this.value)
       }
+    },
+
+    created() {
+      console.log('======', this.value)
     }
   }
 </script>
@@ -61,13 +65,14 @@
     background: $color-contrast;
 
     border: .1rem solid $color-main;
-    border-top: none;
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
+
+    border-radius: .5rem;
 
     overflow: hidden;
 
     list-style: none;
+    user-select: none;
+    cursor: pointer;
 
     &__item {
       display: flex;
@@ -77,8 +82,12 @@
 
       padding: 0 0 0 .8rem;
 
-      &:first-child {
+      font-size: 1.3rem;
 
+      border-top: .1rem solid $color-gray-1;
+
+      &:first-child {
+        border-top: none;
       }
 
       &:hover {

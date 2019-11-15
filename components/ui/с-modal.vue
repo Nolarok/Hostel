@@ -1,14 +1,16 @@
 <template>
-  <div
-    v-if="isOpened"
-    class="modal"
-    ref="modal">
+  <transition name="fade" mode="out-in" appear>
+    <div
+      v-if="isOpened"
+      class="modal"
+      ref="modal">
 
-    <slot :controls="{close}">
+      <slot :controls="{close}">
 
-    </slot>
+      </slot>
 
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -54,6 +56,13 @@
 </script>
 
 <style lang="scss" scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
+
   .modal {
     display: flex;
     align-items: center;

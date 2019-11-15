@@ -1,13 +1,17 @@
 export const state = () => ({
-  value: 'FOOO BAAR'
+  data: {
+    test1: "test1",
+    test2: "test2",
+    test3: "test3",
+  }
 })
 
-export const actions = {
+export const mutations = {
 
 }
 
-export const mutations = {
-  SET_VALUE(state, data) {
-    state.value = data
+export const getters = {
+  GET_DATA(state) {
+    return state.data
   }
 }

@@ -1,12 +1,9 @@
 <template>
-  <div>
+  <div class="page">
     <c-table
       store-path="users"
     />
-    <c-file-loader
-      :types="['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']"
-      :max-size="10000000"
-    />
+
 
 <!--    <c-date-picker/>-->
   </div>
@@ -33,5 +30,7 @@
 </script>
 
 <style scoped>
-
+.page {
+  padding: 1rem;
+}
 </style>

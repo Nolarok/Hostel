@@ -1,7 +1,7 @@
 <template>
   <cSvg v-once
     :style="{
-      height: '2rem',
+      height: '100%',
       color: '#414671',
       ...prop
     }"

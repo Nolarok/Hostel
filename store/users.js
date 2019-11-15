@@ -1,42 +1,46 @@
 import Vue from 'Vue'
 
 export const state = () => ({
-  headers: ['id', '#', 'Ф.И.О', 'Роль', 'Действия'],
+  tables: {
+
+  },
+  headers: ['#', 'Статус УЗ', 'Ф.И.О', 'Email', 'Роль', 'Действия'],
 
   table: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [234422, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654354, 1, 'Заблокирована', 'sadasdsaddasdsadasdasasdsadasddsadasdasasddasdasИванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill']],
+    [654356, 2, 'Активна', 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [123411, 3, 'Активна', 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [654322, 4, 'Активна', 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [234422, 6, 'Активна', 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [123322, 5, 'Активна', 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
   ],
 
   _tableMod: [
-    [654354, 1, 'Иванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654356, 2, 'Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123411, 3, 'Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [654322, 4, 'Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [234422, 5, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
-    [123, 6, 'asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill', 'create']],
+    [654354, 1, 'Заблокирована','sadasdsaddasdsadasdasasdsadasddsadasdasasddasdasИванов Иван', 'mail@mail.ru', 'Администратор', ['block', 'edit', 'remove', 'fill']],
+    [654356, 2, 'Активна','Иванов Петр', 'sdsf4dfg@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [123411, 3, 'Активна','Петров Петр', '2535dfdv@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [654322, 4, 'Активна','Васильев Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [234422, 5, 'Активна','asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
+    [123322, 6, 'Активна','asd Петр', 'avfda224@mail.ru', 'Пользователь', ['block', 'edit', 'remove', 'fill']],
   ],
 
   options: {
     cols: {
-      types: ['auto', 'auto', 'auto', 'auto', 'auto', 'actions'],
-      sortable: [false, true, true, true, true, false],
-      filterable: [false, true, true, true, true, false],
+      types: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'actions'],
+      sortable: [false, true, true, true, true, true, false],
+      filterable: [false, true, true, true, true, true, false],
       hidden: [0]
     },
 
     rows: {
-      colors: {
-        654354: '#ffffff',
-        654356: '#ffffff',
-        123411: '#ffffff',
-        654322: '#ffffff',
-        234422: '#ffffff',
-      }
+      colors: [
+        {id: 654354, color: '#ffffff'},
+        {id: 654356, color: '#ffffff'},
+        {id: 123411, color: '#ffffff'},
+        {id: 654322, color: '#ffffff'},
+        {id: 234422, color: '#ffffff'},
+        {id: 123322, color: '#ffffff'},
+      ]
     },
 
     table: {
@@ -44,14 +48,6 @@ export const state = () => ({
       offset: 0,
     }
   },
-
-  colors: {
-    654354: '#ffffff',
-    654356: '#ffffff',
-    123411: '#ffffff',
-    654322: '#ffffff',
-    234422: '#ffffff',
-  }
 })
 
 //TODO ГЛУБОКОЙ КОПИРОВАНИЕ!!!!!!
@@ -109,6 +105,8 @@ export const mutations = {
         return filters[type](item, value)
       })
     })
+
+    state.options.table.offset = 0
   },
 
   DELETE_RECORD(state, id) {
@@ -122,36 +120,41 @@ export const mutations = {
     const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
 
     if (offset === paginationLength) {
-      console.log(state.options.table.offset)
       state.options.table.offset--
     }
   },
 
-  CREATE_RECORD(state, payload) {
+  CREATE_RECORD(state, {data}) {
     const id = Math.round(Math.random() * 10000000)
-    let result = [id, state.table.length + 1]
+    const result = [id, state.table.length + 1, ...data]
 
-    result = [...result, ...payload]
-
-    Vue.set(state.options.rows.colors, id, '#ffffff')
-    // Vue.set(state.table, state.table.length, result)
-    // Vue.set(state._tableMod, state._tableMod.length, result)
-
-    state.table.push(result)
-    state._tableMod.push(result)
-
-    // state.options.rows.colors[id] = '#ffffff'
-
-    console.log(state)
-
+    Vue.set(state.options.rows.colors, state.options.rows.colors.length, {id, color: '#ffffff'})
+    Vue.set(state.table, state.table.length, result)
+    Vue.set(state._tableMod, state._tableMod.length, result)
   },
 
-  FILL_ROW(state, payload) {
-    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
-    Object.assign(state.options.rows.colors, {[payload.id]: payload.color})
-    // Vue.set(state.options.rows.colors, payload.id, payload.color)
-    // state.options.rows.colors[payload.id] = payload.color
-    console.log('state.options.rows.colors', Object.values(state.options.rows.colors))
+  EDIT_RECORD(state, {data, id}) {
+    const {table, _tableMod} = state
+
+    const rowTableIndex = table.findIndex(item => item[0] === id)
+    const rowModTableIndex = _tableMod.findIndex(item => item[0] === id)
+
+    Vue.set(table, rowTableIndex, [...table[rowTableIndex].slice(0, 2), ...data])
+    Vue.set(_tableMod, rowModTableIndex, [..._tableMod[rowModTableIndex].slice(0, 2), ...data])
+  },
+
+  CHANGE_CELL_VALUE(state, {id, index, value}) {
+    const tableIndex = state.table.findIndex(row => row[0] === id)
+    const _tableModIndex = state._tableMod.findIndex(row => row[0] === id)
+
+    Vue.set(state.table[tableIndex], index, value)
+    Vue.set(state._tableMod[_tableModIndex], index, value)
+  },
+
+  FILL_ROW(state, {id, color}) {
+    const index = state.options.rows.colors.findIndex(item => item.id === id)
+
+    state.options.rows.colors[index].color = color
   }
 }
 
@@ -161,69 +164,52 @@ export const getters = {
   },
 
   GET_TABLE_HEIGHT(state) {
-    if (state.table.length === 0) return 0
+    if (state.table.length === 0 || state._tableMod.length === 0) return 0
 
     const {rowsPerPage, offset} = state.options.table
     const {_tableMod} = state
     const paginationLength = Math.ceil(state._tableMod.length / rowsPerPage)
 
-    console.log('HEADERD', {
-      tableLength: state._tableMod,
-      rowsPerPage,
-      offset,
-      paginationLength,
-      result: (offset + 1) === paginationLength
-        ? _tableMod.length - rowsPerPage * offset
-        : rowsPerPage
-    })
-
     if (paginationLength === 1) {
-      console.log('paginationLength === 1', _tableMod.length)
       return _tableMod.length
     }
 
-    if (offset + 1 >= paginationLength ) {
-      // console.log('offset + 1 >= paginationLength', {rowsPerPage, offset, paginationLength, result: rowsPerPage * offset + rowsPerPage - _tableMod.length})
+    if (offset + 1 >= paginationLength) {
       return rowsPerPage - (rowsPerPage * offset + rowsPerPage - _tableMod.length)
     }
 
-    console.log('rowsPerPage', rowsPerPage)
     return rowsPerPage
-
-    // return (offset + 1) === paginationLength
-    //   ? _tableMod.length - rowsPerPage * offset
-    //   : rowsPerPage
   },
 
   GET_ROW_INFO: (state) => (position) => {
     const {offset, rowsPerPage} = state.options.table
-    console.log('============')
     const start = offset * rowsPerPage
     const end = start + rowsPerPage
-    // const paginationLength = Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
-
-    // console.log({
-    //   rowsPerPage,
-    //   offset,
-    //   result :position + ((offset * rowsPerPage) > state._tableMod.length
-    //     ? state._tableMod.length - 1
-    //     : offset * rowsPerPage)
-    // })
 
     const id = state._tableMod[
       position + ((offset * rowsPerPage) > state._tableMod.length
-      ? state._tableMod.length - 1
-      : offset * rowsPerPage
+        ? state._tableMod.length - 1
+        : offset * rowsPerPage
     )][0]
 
     return {
       position,
       id,
       data: state._tableMod.slice(start, end)[position],
-      options: {
-        color: state.options.rows.colors[id] || '#ffffff'
-      }
+      color: state.options.rows.colors[id] || '#ffffff'
     }
+  },
+
+  GET_ROW_DATA: (state) => (id) => {
+    return state._tableMod.find(item => item[0] === id)
+  },
+
+  GET_ROW_COLOR: (state) => (id) => {
+    const { colors } = state.options.rows
+
+    const index = colors.findIndex(item => item.id === id)
+
+    return state.options.rows.colors[index].color
   },
 
   GET_CELL_INFO: (state) => (position) => {
@@ -251,6 +237,10 @@ export const getters = {
 
   GET_PAGINATION_LENGTH(state) {
     return Math.ceil(state._tableMod.length / state.options.table.rowsPerPage)
+  },
+
+  GET_OFFSET(state) {
+    return state.options.table.offset
   },
 
   GET_ROWS_PER_PAGE(state) {

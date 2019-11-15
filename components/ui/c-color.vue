@@ -27,7 +27,6 @@
     },
     methods: {
       handlerClick() {
-        console.log(this.color)
         this.$emit('change', this.color)
       }
     }

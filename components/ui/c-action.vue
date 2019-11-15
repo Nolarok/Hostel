@@ -15,7 +15,7 @@
           v-if="info.type === 'block'"
           question="Заблокировать пользователя?"
           :cancel="scope.controls.close"
-          :confirm="() => 0"
+          :confirm="() => {CHANGE_CELL_VALUE({id: info.id, index: 2, value: 'Заблокирована'})}"
         />
 
         <c-confirm
@@ -40,11 +40,18 @@
           :payload="{id: info.id}"
         />
 
-        <c-new-guest
+        <c-new-user
           v-if="info.type === 'edit'"
-          :cancel="scope.controls.close"
-          :confirm="() => 0"
+          :cancel="() => {scope.controls.close(); CLEAR()}"
+          :confirm="EDIT_RECORD"
+          :payload="{id: info.id}"
         />
+
+<!--        <c-new-guest-->
+<!--          v-if="info.type === 'edit'"-->
+<!--          :cancel="scope.controls.close"-->
+<!--          :confirm="() => 0"-->
+<!--        />-->
 
       </template>
     </c-dialog>
@@ -72,8 +79,12 @@
         required: true
       }
     },
+    computed: {
+      ...mapGetters('users', ['GET_ROW_DATA'])
+    },
     methods: {
-      ...mapMutations('users', ['DELETE_RECORD', 'FILL_ROW', 'CREATE_RECORD']),
+      ...mapMutations('users', ['DELETE_RECORD', 'FILL_ROW', 'CREATE_RECORD', 'EDIT_RECORD', 'CHANGE_CELL_VALUE']),
+      ...mapMutations('new-user', ['CHANGE_VALUES', 'CLEAR']),
       getSvgType(type) {
         const matches = {
           block: 'lock',
@@ -92,10 +103,12 @@
             this.openModal()
           },
           edit: () => {
-
+            const data = this.GET_ROW_DATA(this.info.id).slice(3)
+            this.CHANGE_VALUES(data)
             this.openModal()
           },
           create: () => {
+            this.CLEAR()
             this.openModal()
           },
           fill: () => {
@@ -125,11 +138,7 @@
         this.openModal = callback
       },
 
-      openModal() {
-      },
-
-      closeModal() {
-      }
+      openModal() {},
     }
   }
 </script>

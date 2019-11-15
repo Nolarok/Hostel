@@ -58,6 +58,7 @@
 
 .confirm {
   padding: 1rem;
+  padding-bottom: 0;
 
   &__question {
     font-size: 1.6rem;

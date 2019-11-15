@@ -31,6 +31,7 @@
     methods: {},
 
     mounted() {
+      console.log('info.data', this.info.data)
     }
 
   }

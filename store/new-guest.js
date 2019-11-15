@@ -1,29 +1,26 @@
 export const state = () => ({
   values: {
-    name: '123',
-    email: '123',
-    role: '123'
-  }
 
+  }
 })
 
 export const mutations = {
-  CHANGE_VALUE(state, payload) {
-    const {name, value} = payload
-
+  CHANGE_VALUE(state, {name, value}) {
     state.values[name] = value
+    console.log('state', state, name, value)
   },
 
   CHANGE_VALUES(state, data)  {
-    state.values.name = data[0]
-    state.values.email = data[1]
-    state.values.role = data[2]
+    // state.values.name = data[0]
+    // state.values.email = data[1]
+    // state.values.role = data[2]
   },
 
   CLEAR(state) {
-    state.values.name = ''
-    state.values.email = ''
-    state.values.role = ''
+    let key
+    for (key in state) {
+      state[key] = ''
+    }
   }
 }
 
@@ -35,11 +32,10 @@ export const getters = {
   GET_ALL_VALUES(state) {
     const result = []
 
-    result.push('Активна')
     result.push(state.values['name'])
     result.push(state.values['email'])
     result.push(state.values['role'])
-    result.push(['block', 'edit', 'remove', 'fill'])
+    result.push(['edit', 'remove', 'fill'])
 
     return result
   }

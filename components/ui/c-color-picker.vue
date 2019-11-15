@@ -53,13 +53,13 @@
         value: '#ffffff',
         palette: [
           {color: '#ffffff', isActive: true},
-          {color: '#00ffff', isActive: false},
-          {color: '#ff00ff', isActive: false},
-          {color: '#ffff00', isActive: false},
-          {color: '#000000', isActive: false},
-          {color: '#0000ff', isActive: false},
-          {color: '#00ff00', isActive: false},
-          {color: '#ff0000', isActive: false},
+          {color: '#bbfff3', isActive: false},
+          {color: '#ffd9f1', isActive: false},
+          {color: '#faffc1', isActive: false},
+          {color: '#c7c7c7', isActive: false},
+          {color: '#c2c8ff', isActive: false},
+          {color: '#d2ffd6', isActive: false},
+          {color: '#ffb2b3', isActive: false},
         ]
       }
     },
@@ -97,6 +97,7 @@
       justify-items: center;
 
       padding: 1rem;
+      padding-bottom: 0;
     }
 
     &__actions {
@@ -117,8 +118,6 @@
       & > .button {
         margin-right: 1rem;
       }
-
     }
-
   }
 </style>

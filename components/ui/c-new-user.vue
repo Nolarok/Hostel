@@ -26,10 +26,22 @@
       />
 
       <label class="new-user__label">Роль:</label>
-      <c-dropdown
-        :data="['Администратор', 'Пользователь']"
+      <c-drop
         @change="handlerChangeRole"
-      />
+        :default="GET_VALUE('role')"
+      >
+        <template #default="scope">
+          <c-menu
+            :data="['Администратор', 'Пользователь']"
+            :default="{index: 1}"
+            :action="scope.controls.setValue"
+          />
+        </template>
+      </c-drop>
+<!--      <c-dropdown-->
+<!--        :data="['Администратор', 'Пользователь']"-->
+<!--        @change="handlerChangeRole"-->
+<!--      />-->
     </div>
 
     <div class="color-picker__actions">
@@ -44,10 +56,12 @@
   import CDropdown from "./c-dropdown"
   import CButton from "./c-button"
   import {mapGetters, mapMutations} from "vuex"
+  import CDrop from "./c-drop"
+  import CMenu from "./c-menu"
 
   export default {
     name: "c-new-user",
-    components: {CButton, CDropdown, CInput},
+    components: {CMenu, CDrop, CButton, CDropdown, CInput},
     props: {
       confirm: {
         type: Function,
@@ -60,6 +74,9 @@
       payload: {
         type: Object,
         default: () => {}
+      },
+      id: {
+        type: [String, Number]
       }
     },
     computed: {
@@ -76,7 +93,6 @@
       },
 
       handlerChangeRole(value) {
-        console.log('dfvfdgdgd')
         this.CHANGE_VALUE({name: 'role', value})
       },
 
@@ -86,7 +102,7 @@
       },
 
       closeAndConfirm() {
-        this.confirm(this.GET_ALL_VALUES)
+        this.confirm({data: this.GET_ALL_VALUES, id: this.payload.id})
         this.CLEAR()
         this.cancel()
       }
@@ -97,6 +113,7 @@
 <style lang="scss">
   .new-user {
     padding: 2rem;
+    padding-bottom: 0;
 
     &__content {
       display: grid;

@@ -62,6 +62,7 @@
 
         const dt = event.dataTransfer
         const files = dt.files
+        const reader = new FileReader()
 
         const isValid = this.validateFile(files[0])
 
@@ -77,7 +78,11 @@
         this.status = 'success'
         this.message = files[0].name
 
-        this.$set(this, 'value', files[0])
+        reader.readAsDataURL(files[0])
+        reader.onload = () => {
+          this.$set(this, 'value', reader.result)
+          this.$emit('change', reader.result)
+        }
       },
 
       validateFile(file) {
@@ -115,6 +120,9 @@
   @import "../../assets/scss/vars";
 
   .file-loader {
+    display: flex;
+    align-items: center;
+
     height: 22rem;
     width: 45rem;
 
@@ -122,6 +130,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      width: 100%;
 
       padding: 2rem;
 

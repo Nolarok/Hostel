@@ -1,8 +1,11 @@
 <template>
   <ul class="pagination">
     <li
-      class="pagination__item"
-      v-for="item in _length"
+      :class="[
+        {'pagination__item--active': index === offset},
+        'pagination__item'
+      ]"
+      v-for="(item, index) in length"
       @click="action(item)"
       :key="item"
     >
@@ -16,8 +19,18 @@
   export default {
     name: "c-pagination",
 
+    data() {
+      return {
+        activeItem: 0
+      }
+    },
+
     props: {
       length: {
+        type: [Number, String],
+        required: true
+      },
+      offset: {
         type: [Number, String],
         required: true
       },
@@ -69,6 +82,15 @@
       color: #ffffff;
 
       cursor: pointer;
+
+      &--active {
+        box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+
+      }
+
+      &:hover {
+        background-color: rgba($color-main, .8);
+      }
     }
   }
 </style>

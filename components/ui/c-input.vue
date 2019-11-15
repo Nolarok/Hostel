@@ -21,7 +21,7 @@
       :id="options.id"
       :name="options.name"
       :placeholder="options.placeholder"
-    />
+    ></textarea>
 
   </div>
 

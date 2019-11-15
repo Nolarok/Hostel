@@ -59,7 +59,7 @@
     background: #ffffff;
 
 
-    overflow: hidden;
+    /*overflow: hidden;*/
 
     &__header {
       display: flex;
@@ -71,6 +71,8 @@
       padding: 0 1.4rem;
 
       background: $color-main;
+
+      @include border-top-radius(.5rem);
 
       text-transform: uppercase;
       color: #ffffff;
@@ -85,6 +87,8 @@
       width: 100%;
 
       background: #ffffff;
+
+      @include border-bottom-radius(.5rem);
     }
   }
 </style>

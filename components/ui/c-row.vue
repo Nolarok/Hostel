@@ -1,6 +1,6 @@
 <template>
   <tr
-    :style="{backgroundColor: info.options.color}"
+    :style="{backgroundColor: GET_ROW_COLOR(info.id)}"
   >
     <c-cell
       v-for="(cell, index) in info.data"
@@ -33,15 +33,17 @@
     },
 
     computed: {
-
+      ...mapGetters('users', ['GET_CELL_INFO', 'GET_ROW_COLOR'])
     },
+
 
     beforeCreate() {
-      this.$options.computed = {
-        ...this.$options.computed,
-        ...mapGetters(this.$options.propsData.storePath, ['GET_CELL_INFO']),
-      }
+
     },
+
+    mounted() {
+
+    }
   }
 </script>
 
