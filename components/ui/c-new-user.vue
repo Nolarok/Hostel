@@ -8,8 +8,12 @@
           name: 'user-name',
           type: 'text',
           placeholder: 'Введите имя пользователя',
-          default: GET_VALUE('name')
+          default: GET_VALUE({name: 'name', form: 'user'})
         }"
+        :validators="[
+          validators.validatorLength(6),
+          validators.validatorNotEmpty()
+        ]"
         @input="handlerInputName"
       />
 
@@ -20,15 +24,18 @@
           name: 'user-mail',
           type: 'text',
           placeholder: 'Введите адрес почты',
-          default: GET_VALUE('email')
+          default: GET_VALUE({name: 'email', form: 'user'})
         }"
+        :validators="[
+          validators.validatorLength(64)
+        ]"
         @input="handlerInputEmail"
       />
 
       <label class="new-user__label">Роль:</label>
       <c-drop
         @change="handlerChangeRole"
-        :default="GET_VALUE('role')"
+        :default="GET_VALUE({name: 'role', form: 'user'})"
       >
         <template #default="scope">
           <c-menu
@@ -38,10 +45,6 @@
           />
         </template>
       </c-drop>
-<!--      <c-dropdown-->
-<!--        :data="['Администратор', 'Пользователь']"-->
-<!--        @change="handlerChangeRole"-->
-<!--      />-->
     </div>
 
     <div class="color-picker__actions">
@@ -58,6 +61,8 @@
   import {mapGetters, mapMutations} from "vuex"
   import CDrop from "./c-drop"
   import CMenu from "./c-menu"
+
+  import {validatorLength, validatorNotEmpty} from '../../helpers/validators'
 
   export default {
     name: "c-new-user",
@@ -79,33 +84,56 @@
         type: [String, Number]
       }
     },
+    data() {
+      return {
+        validators: {
+          validatorLength,
+          validatorNotEmpty
+        }
+      }
+    },
     computed: {
       ...mapGetters('new-user', ['GET_VALUE', 'GET_ALL_VALUES']),
     },
     methods: {
       ...mapMutations('new-user', ['CHANGE_VALUE', 'CLEAR']),
       handlerInputName(value) {
-        this.CHANGE_VALUE({name: 'name', value})
+        this.CHANGE_VALUE({name: 'name', value, form: 'user'})
       },
 
       handlerInputEmail(value) {
-        this.CHANGE_VALUE({name: 'email', value})
+        this.CHANGE_VALUE({name: 'email', value, form: 'user'})
       },
 
       handlerChangeRole(value) {
-        this.CHANGE_VALUE({name: 'role', value})
+        this.CHANGE_VALUE({name: 'role', value, form: 'user'})
       },
 
       closeAndClear() {
         this.cancel()
-        this.CLEAR()
+        this.CLEAR({form: 'user'})
+      },
+
+      hasError() {
+
       },
 
       closeAndConfirm() {
-        this.confirm({data: this.GET_ALL_VALUES, id: this.payload.id})
-        this.CLEAR()
+        const formData = this.GET_ALL_VALUES({form: 'user'})
+        const data = []
+
+        data.push('Активна')
+        data.push(formData['name'])
+        data.push(formData['email'])
+        data.push(formData['role'])
+        data.push(['block', 'edit', 'remove'])
+
+        this.confirm({...this.payload, ...{data}})
+        this.CLEAR({form: 'user'})
         this.cancel()
       }
+    },
+    mounted() {
     }
   }
 </script>

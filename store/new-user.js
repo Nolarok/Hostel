@@ -1,47 +1,49 @@
 export const state = () => ({
-  values: {
-    name: '123',
-    email: '123',
-    role: '123'
-  }
+  user: {
+    name: 'Вася',
+    email: 'vasya@mail.com',
+    role: 'Пользователь'
+  },
 
+  guests: {
+
+  },
 })
 
 export const mutations = {
-  CHANGE_VALUE(state, payload) {
-    const {name, value} = payload
-
-    state.values[name] = value
+  CHANGE_VALUE(state, {name, value, form}) {
+    state[form][name] = value
   },
 
-  CHANGE_VALUES(state, data)  {
-    state.values.name = data[0]
-    state.values.email = data[1]
-    state.values.role = data[2]
+  CHANGE_VALUES(state, {data, form})  {
+    state[form] = {...state[form], ...data}
   },
 
-  CLEAR(state) {
-    state.values.name = ''
-    state.values.email = ''
-    state.values.role = ''
+  CLEAR(state, {form}) {
+    let key
+    for (key in state[form]) {
+      if (typeof state[form][key] === 'Object') {
+        state[form][key] = []
+      } else {
+        state[form][key] = ''
+      }
+    }
   }
 }
 
 export const getters = {
-  GET_VALUE: (state) => (name) => {
-    return state.values[name]
+  GET_VALUE: (state) => ({name, form}) => {
+    return state[form][name]
   },
 
-  GET_ALL_VALUES(state) {
-    const result = []
+  GET_ALL_VALUES: (state) => ({form}) => {
+    console.log('GET_ALL_VALUES', form)
 
-    result.push('Активна')
-    result.push(state.values['name'])
-    result.push(state.values['email'])
-    result.push(state.values['role'])
-    result.push(['block', 'edit', 'remove', 'fill'])
+    return state[form]
+  },
 
-    return result
+  HAS_ERRORS: {
+
   }
 }
 

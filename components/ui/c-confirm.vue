@@ -26,8 +26,8 @@
       },
 
       payload: {
-        type: Array,
-        default: () => []
+        type: Object,
+        default: () => {}
       },
 
       confirm: {
@@ -43,7 +43,7 @@
 
     methods: {
       action() {
-        this.confirm.apply(this, this.payload)
+        this.confirm.call(this, this.payload)
         this.cancel()
       }
     },

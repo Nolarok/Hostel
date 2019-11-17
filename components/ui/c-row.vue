@@ -1,11 +1,12 @@
 <template>
   <tr
-    :style="{backgroundColor: GET_ROW_COLOR(info.id)}"
+    :style="{backgroundColor: GET_ROW_COLOR({id: info.id, table: tableName})}"
   >
     <c-cell
       v-for="(cell, index) in info.data"
       :key="index"
-      :info="GET_CELL_INFO({i: info.position, j: index})"
+      :tableName="tableName"
+      :info="GET_CELL_INFO({position: {i: info.position, j: index}, table: tableName})"
     >
       {{cell}}
     </c-cell>
@@ -26,7 +27,7 @@
         type: Object,
         required: true
       },
-      storePath: {
+      tableName: {
         type: String,
         required: true
       }

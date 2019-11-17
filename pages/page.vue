@@ -1,11 +1,11 @@
 <template>
   <div class="page">
-    <c-table
-      store-path="users"
-    />
-
-
-<!--    <c-date-picker/>-->
+    <v-app>
+      <c-table
+        tableName="users"
+        :toolbarActions="['create_user', 'upload']"
+      />
+    </v-app>
   </div>
 </template>
 
@@ -15,10 +15,11 @@
   import CSvg from "../components/ui/c-svg"
   import CFileLoader from "../components/ui/c-file-loader"
   import CDatePicker from "../components/ui/c-date-picker"
+  import CStatus from "../components/ui/c-status"
 
   export default {
     name: "page",
-    components: {CDatePicker, CFileLoader, CSvg, CButton, CTable},
+    components: {CStatus, CDatePicker, CFileLoader, CSvg, CButton, CTable},
     data() {
       return {
         picker: new Date().toISOString().substr(0, 10),
@@ -30,7 +31,7 @@
 </script>
 
 <style scoped>
-.page {
-  padding: 1rem;
-}
+  .page {
+    padding: 1rem;
+  }
 </style>

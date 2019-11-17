@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <div class="error">{{this.errorMessage || " "}}</div>
+    <div class="input-error">{{this.errorMessage || " "}}</div>
     <input
       v-if="options.type !== 'textarea'"
       v-model="value"
@@ -70,11 +70,19 @@
     methods: {
       handlerInput() {
         this.errorMessage = ""
-        this.$emit('input', this.value)
+        if (!this.isValid) {
+          this.$emit('input', '~~error~~')
+        } else {
+          this.$emit('input', this.value)
+        }
       },
 
       handlerChange() {
-        this.$emit('change', this.value)
+        if (!this.isValid) {
+          this.$emit('change', '~~error~~')
+        } else {
+          this.$emit('change', this.value)
+        }
       }
     },
   }
@@ -128,7 +136,7 @@
     color: #F45B61;
   }
 
-  .error {
+  .input-error {
     height: 1.4rem;
 
     min-width: 10rem;

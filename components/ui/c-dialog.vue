@@ -56,7 +56,7 @@
 
     border-radius: .5rem;
 
-    background: #ffffff;
+    /*background: #ffffff;*/
 
 
     /*overflow: hidden;*/

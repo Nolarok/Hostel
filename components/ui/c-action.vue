@@ -1,5 +1,5 @@
 <template>
-  <div class="action">
+  <div class="action" id="app">
     <c-button
       type="svg"
       :action="getClickHandler(info.type)"
@@ -15,7 +15,12 @@
           v-if="info.type === 'block'"
           question="Заблокировать пользователя?"
           :cancel="scope.controls.close"
-          :confirm="() => {CHANGE_CELL_VALUE({id: info.id, index: 2, value: 'Заблокирована'})}"
+          :confirm="() => {CHANGE_CELL_VALUE({
+            id: info.id,
+            index: 2,
+            value: 'Заблокирована',
+            table: tableName
+           })}"
         />
 
         <c-confirm
@@ -23,30 +28,29 @@
           question="Удалить запись?"
           :cancel="scope.controls.close"
           :confirm="DELETE_RECORD"
-          :payload="[info.id]"
+          :payload="{id: info.id, table: tableName}"
         />
 
         <c-color-picker
           v-if="info.type === 'fill'"
           :cancel="scope.controls.close"
           :confirm="FILL_ROW"
-          :payload="{id: info.id}"
+          :payload="{id: info.id, table: tableName}"
         />
 
         <c-new-user
-          v-if="info.type === 'create'"
+          v-if="info.type === 'edit_user'"
+          :cancel="() => {scope.controls.close(); CLEAR({form: 'user'})}"
+          :confirm="EDIT_RECORD"
+          :payload="{id: info.id, table: tableName}"
+        />
+
+        <c-new-user
+          v-if="info.type === 'create_user'"
           :cancel="scope.controls.close"
           :confirm="CREATE_RECORD"
-          :payload="{id: info.id}"
+          :payload="{id: info.id, table: tableName}"
         />
-
-        <c-new-user
-          v-if="info.type === 'edit'"
-          :cancel="() => {scope.controls.close(); CLEAR()}"
-          :confirm="EDIT_RECORD"
-          :payload="{id: info.id}"
-        />
-
 <!--        <c-new-guest-->
 <!--          v-if="info.type === 'edit'"-->
 <!--          :cancel="scope.controls.close"-->
@@ -77,6 +81,10 @@
       info: {
         type: Object,
         required: true
+      },
+      tableName: {
+        type: String,
+        required: true
       }
     },
     computed: {
@@ -85,10 +93,12 @@
     methods: {
       ...mapMutations('users', ['DELETE_RECORD', 'FILL_ROW', 'CREATE_RECORD', 'EDIT_RECORD', 'CHANGE_CELL_VALUE']),
       ...mapMutations('new-user', ['CHANGE_VALUES', 'CLEAR']),
+
       getSvgType(type) {
         const matches = {
           block: 'lock',
-          edit: 'user_edit',
+          edit_guest: 'user_edit',
+          edit_user: 'user_edit',
           create: 'user',
           fill: 'palette',
           remove: 'trash'
@@ -102,18 +112,33 @@
           block: () => {
             this.openModal()
           },
-          edit: () => {
-            const data = this.GET_ROW_DATA(this.info.id).slice(3)
-            this.CHANGE_VALUES(data)
+
+          edit_user: () => {
+            const data = this.GET_ROW_DATA({id: this.info.id, table: this.tableName}).slice(3)
+
+            const values = {
+              name: data[0],
+              email: data[1],
+              role: data[2]
+            }
+
+            this.CHANGE_VALUES({...{data: values}, form: 'user'})
             this.openModal()
           },
-          create: () => {
-            this.CLEAR()
+
+          create_user: () => {
+            this.CLEAR({form: 'user'})
             this.openModal()
           },
+
+          edit_guest: () => {
+            this.openModal()
+          },
+
           fill: () => {
             this.openModal()
           },
+
           remove: () => {
             this.openModal()
           },
@@ -125,8 +150,8 @@
       getTitle(type) {
         const matches = {
           block: 'Заблокировать',
-          edit: 'Редактирование',
-          create: 'Новый пользователь',
+          edit_user: 'Редактирование',
+          create_user: 'Новый пользователь',
           fill: 'Заливка',
           remove: 'Удаление',
         }
@@ -139,6 +164,10 @@
       },
 
       openModal() {},
+    },
+
+    mounted() {
+      // console.log('mounted', this.info, this.tableName)
     }
   }
 </script>

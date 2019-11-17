@@ -25,7 +25,7 @@
           v-if="currentDialog === 'create_user'"
           :cancel="scope.controls.close"
           :confirm="CREATE_RECORD"
-          :payload="{}"
+          :payload="{table: tableName}"
         />
 
         <c-new-document
@@ -56,6 +56,10 @@
       actions: {
         type: Array,
         required: true,
+      },
+      tableName: {
+        type: String,
+        required: true
       }
     },
     data() {
@@ -107,9 +111,6 @@
     computed: {},
     methods: {
       ...mapMutations('users', ['CREATE_RECORD']),
-      isRender(type) {
-        return ['create_user', 'create_guest', 'upload'].includes(type)
-      },
 
       getOpenFromModal(callback) {
         this.openModal = callback

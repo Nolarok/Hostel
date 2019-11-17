@@ -3,6 +3,7 @@
     <c-action
       v-for="(item, index) in info.data"
       :key="index"
+      :tableName="tableName"
       :info="{
         type: item,
         id: info.id
@@ -20,6 +21,10 @@
     props: {
       info: {
         type: Object,
+        required: true
+      },
+      tableName: {
+        type: String,
         required: true
       },
     },

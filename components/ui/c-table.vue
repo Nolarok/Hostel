@@ -1,5 +1,5 @@
 <template>
-  <div class="table__wrapper">
+  <div class="table">
     <div class="table__filters">
       <c-input
         :options="{
@@ -22,45 +22,45 @@
       </c-drop>
     </div>
 
-    <table class="table">
+    <div class="table__wrapper">
+      <table class="table__content">
       <thead>
         <c-head-row
-          :info="GET_HEADERS"
+          :info="GET_HEADERS({table: tableName})"
         />
       </thead>
       <tbody>
       <c-row
-        v-for="(row, index) in GET_TABLE_HEIGHT"
+        v-for="(row, index) in GET_TABLE_HEIGHT({table: tableName})"
         :key="row[0]"
-        :info="GET_ROW_INFO(index)"
-
-        :storePath="storePath"
+        :info="GET_ROW_INFO({position: index, table: tableName})"
+        :tableName="tableName"
       />
       </tbody>
     </table>
+    </div>
 
     <div class="table__footer">
       <c-table-toolbar
-        :actions="['create_user', 'upload']"
+        :actions="toolbarActions"
+        :tableName="tableName"
       />
 
       <c-pagination
-        :length="GET_PAGINATION_LENGTH"
-        :offset="GET_OFFSET"
-        :action="CHANGE_OFFSET"
+        :length="GET_PAGINATION_LENGTH({table: this.tableName})"
+        :offset="GET_OFFSET({table: this.tableName})"
+        :action="(value) => {CHANGE_OFFSET({value, table: this.tableName})}"
       />
     </div>
-
-    <c-drop icon="calendar">
-      <template #default="scope">
-        <c-date-picker
-          :action="scope.controls.setValue"
-        />
-      </template>
-    </c-drop>
-
   </div>
 </template>
+<!--<c-drop icon="calendar">-->
+<!--  <template #default="scope">-->
+<!--    <c-date-picker-->
+<!--      :action="scope.controls.setValue"-->
+<!--    />-->
+<!--  </template>-->
+<!--</c-drop>-->
 
 <script>
   import {mapGetters, mapMutations} from "vuex"
@@ -85,9 +85,13 @@
       CDialog,
       CSvg, CButton, CDatePicker, CMenu, CDrop, CInput, CDropdown, CHeadRow, CPagination, CRow, CCell},
     props: {
-      storePath: {
+      tableName: {
         type: String,
         required: true
+      },
+      toolbarActions: {
+        type: Array,
+        default: () => []
       }
     },
 
@@ -109,11 +113,11 @@
 
     methods: {
       handlerChangeRowsPerPage(value) {
-        this.CHANGE_ROWS_PER_PAGE(value)
+        this.CHANGE_ROWS_PER_PAGE({value, table: this.tableName})
       },
 
       handlerInputSearch(value) {
-        this.FILTER_BY_COL(value)
+        this.FILTER_BY_COL({value, table: this.tableName})
       },
 
       ...mapMutations('users', [
@@ -123,45 +127,33 @@
       ])
     },
 
-    beforeCreate() {
-      // this.$options.computed = {
-      //   ...this.$options.computed,
-      //   ...mapGetters(this.$options.propsData.storePath, [
-      //     'GET_HEADERS',
-      //     'GET_TABLE_HEIGHT',
-      //     'GET_OPTIONS',
-      //     'GET_ROW_INFO',
-      //     'GET_PAGINATION_LENGTH',
-      //     'GET_ROWS_PER_PAGE'
-      //   ]),
-      // }
-
-      // this.$options.computed = {
-      //   ...this.$options.computed,
-      //   ...mapGetters(this.$options.propsData.storePath, [])
-      // }
-    },
-
     mounted() {
 
     },
-
-    update() {
-    }
   }
 </script>
 
 <style lang="scss">
+  @import "../../assets/scss/vars";
+
   .table {
-    @import "../../assets/scss/vars";
+    max-width: 1000px;
+    /*overflow: hidden;*/
 
-    width: 100%;
+    &__wrapper {
+      max-width: 100%;
+      overflow-x: scroll;
+    }
 
-    margin: 1rem 0 1rem;
+    &__content {
+      width: 100%;
 
-    border-collapse: collapse;
+      margin: 1rem 0 1rem;
 
-    font-size: 1.3rem;
+      border-collapse: collapse;
+
+      font-size: 1.3rem;
+    }
 
     &__filters {
       display: flex;

@@ -27,26 +27,28 @@
   import user_slash from '../../assets/img/user-slash-solid.svg'
   import user from '../../assets/img/user-solid.svg'
   import triangle from '../../assets/img/triangle.svg'
+  import note from '../../assets/img/exclamation-solid.svg'
 
   const svgList = {
     "calendar": calendar,
-      "checkbox": checkbox,
-      "cloud": cloud,
-      "copy": copy,
-      "excel": excel,
-      "lock": lock,
-      "palette": palette,
-      "plus": plus,
-      "ruble": ruble,
-      "save": save,
-      "sign_in": sign_in,
-      "square": square,
-      "cancel": cancel,
-      "trash": trash,
-      "user_edit": user_edit,
-      "user_slash": user_slash,
-      "user": user,
-      "triangle": triangle,
+    "checkbox": checkbox,
+    "cloud": cloud,
+    "copy": copy,
+    "excel": excel,
+    "lock": lock,
+    "palette": palette,
+    "plus": plus,
+    "ruble": ruble,
+    "save": save,
+    "sign_in": sign_in,
+    "square": square,
+    "cancel": cancel,
+    "trash": trash,
+    "user_edit": user_edit,
+    "user_slash": user_slash,
+    "user": user,
+    "triangle": triangle,
+    "note": note,
   }
 
   export default {
