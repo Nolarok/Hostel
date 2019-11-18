@@ -21,11 +21,14 @@
       :externalOpen="getOpenFromModal"
     >
       <template #default="scope">
-        <c-new-user
+        <c-user-form
           v-if="currentDialog === 'create_user'"
           :cancel="scope.controls.close"
-          :confirm="CREATE_RECORD"
-          :payload="{table: tableName}"
+        />
+
+        <c-guest-form
+          v-if="currentDialog === 'create_guest'"
+          :cancel="scope.controls.close"
         />
 
         <c-new-document
@@ -48,10 +51,12 @@
   import CDialog from "./c-dialog"
   import CNewUser from "./c-new-user"
   import CNewDocument from "./c-new-document"
+  import CUserForm from "./c-user-form"
+  import CGuestForm from "./c-guest-form"
 
   export default {
     name: "c-table-toolbar",
-    components: {CNewDocument, CNewUser, CDialog, CSvg, CButton},
+    components: {CGuestForm, CUserForm, CNewDocument, CNewUser, CDialog, CSvg, CButton},
     props: {
       actions: {
         type: Array,

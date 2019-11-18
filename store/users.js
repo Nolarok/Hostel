@@ -50,30 +50,30 @@ export const state = () => ({
 
   guests: {
     headers: [
-      '#',
-      'Статус',
-      'Дата заезда',
-      'Время',
-      'Дата выезда',
-      'Ф.И.О',
-      'Факт бронь, фирма, счет',
-      'Категория по запросу',
-      'Питание',
-      '№Счета / нал, цена',
-      'Отметки об оплате',
-      'Контакты',
-      'Оплата',
-      'Комментарий гостя',
-      'Дополнительно',
-      'Действия'
+      '#',                       // 1
+      'Статус',                  // 2
+      'Дата заезда',             // 3  checkin
+      'Время',                   // 4  time
+      'Дата выезда',             // 5  checkout
+      'Ф.И.О',                   // 6  name
+      'Факт бронь, фирма, счет', // 7  fact
+      'Категория по запросу',    // 8  category
+      'Питание',                 // 9  food
+      '№Счета / нал, цена',      // 10 bill
+      'Отметки об оплате',       // 11 payNotes
+      'Контакты',                // 12 contacts
+      'Оплата',                  // 13 paid
+      'Комментарий гостя',       // 14 comment
+      'Дополнительно',           // 15 advanced
+      'Действия'                 //
     ],
 
     table: [
-      [123123, 1, ['not_payed', 'payed', 'check_in', 'not_check_in'], '2019/10/10', '10:00', '2019/11/11', ['Петя', 'Вася'], 'Дельта КПБ', '2М', 'Завтрак 1', '3600р.', 'Оплачено 16.07', ['+7999999999', 'mail@mail.ru'], 'foo bar', 'comment', 'additional', ['edit', 'remove', 'fill']],
+      [123123, 1, ['not_check_in'], '2019/10/10', '10:00', '2019/11/11', ['Петя', 'Вася'], 'Дельта КПБ', '2М', 'Завтрак 1', '3600р.', 'Оплачено 16.07', ['+7999999999', 'mail@mail.ru'], 'foo bar', 'comment', 'additional', ['edit_guest', 'remove', 'fill']],
     ],
 
     _tableMod: [
-      [123123, 1, ['not_payed', 'payed', 'check_in', 'not_check_in'], '2019/10/10', '10:00', '2019/11/11', ['Петя', 'Вася'], 'Дельта КПБ', '2М', 'Завтрак 1', '3600р.', 'Оплачено 16.07', ['+7999999999', 'mail@mail.ru'], 'foo bar', 'comment', 'additional', ['edit', 'remove', 'fill']],
+      [123123, 1, ['not_check_in'], '2019/10/10', '10:00', '2019/11/11', ['Петя', 'Вася'], 'Дельта КПБ', '2М', 'Завтрак 1', '3600р.', 'Оплачено 16.07', ['+7999999999', 'mail@mail.ru'], 'foo bar', 'comment', 'additional', ['edit_guest', 'remove', 'fill']],
     ],
 
     options: {
@@ -81,7 +81,7 @@ export const state = () => ({
                     //    '#'     'С',    'ДЗ',   'Вр',   'ДВ',   'ФИО', 'ФБФ',  'КЗ',    'П',    '№',   'ОО',   'К',   'О',    'КГ',   'Д',   'Действия'
         types: ['auto', 'auto', 'status', 'date', 'auto', 'date', 'set', 'auto', 'auto', 'auto', 'auto', 'auto', 'set', 'auto', 'auto', 'auto', 'actions'],
         sortable: [false, true, true,      true,  true,    true,  true,  true,   true,   true,    true,  true,   true,   true,   true,  true, false],
-        filterable: [false, true,true,     true,  true,    true,  true,  true,   true,   true,    true,  true,   true,   true,   true,  true, false],
+        filterable: [false, true, true,    true,  true,    true,  true,  true,   true,   true,    true,  true,   true,   true,   true,  true, false],
         hidden: [0]
       },
 
@@ -119,7 +119,6 @@ export const mutations = {
   },
 
   CHANGE_ROWS_PER_PAGE(state, {value, table}) {
-    console.log('CHANGE_ROWS_PER_PAGE', value, table)
     state[table].options.table.rowsPerPage = value
 
     const paginationLength = Math.ceil(state[table]._tableMod.length / state[table].options.table.rowsPerPage)
@@ -180,7 +179,6 @@ export const mutations = {
   },
 
   CREATE_RECORD(state, {data, table}) {
-    console.log('CREATE_RECORD', data, table)
     const id = Math.round(Math.random() * 10000000)
     const result = [id, state[table].table.length + 1, ...data]
 
@@ -190,9 +188,7 @@ export const mutations = {
   },
 
   EDIT_RECORD(state, {data, id, table}) {
-    console.log('EDIT_RECORD', originTable, _tableMod)
     const {table: originTable, _tableMod} = state[table]
-
 
     const rowTableIndex = originTable.findIndex(item => item[0] === id)
     const rowModTableIndex = _tableMod.findIndex(item => item[0] === id)
@@ -210,7 +206,6 @@ export const mutations = {
   },
 
   FILL_ROW(state, {id, color, table}) {
-    console.log('FILL_ROW', id, color, table)
     const index = state[table].options.rows.colors.findIndex(item => item.id === id)
 
     state[table].options.rows.colors[index].color = color
@@ -241,8 +236,6 @@ export const getters = {
   },
 
   GET_ROW_INFO: (state) => ({position, table}) => {
-    console.log('TABLE', position, table)
-
     const {offset, rowsPerPage} = state[table].options.table
     const start = offset * rowsPerPage
     const end = start + rowsPerPage
@@ -305,7 +298,6 @@ export const getters = {
   },
 
   GET_ROWS_PER_PAGE: (state) => ({table}) => {
-    console.log('GET_ROWS_PER_PAGE', table)
     return state[table].options.table.rowsPerPage
   }
 }

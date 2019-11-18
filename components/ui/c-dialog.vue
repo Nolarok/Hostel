@@ -1,6 +1,7 @@
 <template>
   <c-modal
     :externalOpen="externalOpen"
+    :externalClose="externalClose"
   >
     <template #default="scope">
       <div class="dialog">
@@ -11,7 +12,6 @@
           }">
 
           </slot>
-
         </div>
       </div>
     </template>
@@ -31,6 +31,10 @@
       externalOpen: {
         type: Function,
         required: true
+      },
+      externalClose: {
+        type: Function,
+        default: () => 0
       }
     },
     data() {

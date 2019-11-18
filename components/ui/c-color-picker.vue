@@ -76,7 +76,6 @@
         this.palette[index].isActive = true
       },
       action() {
-        console.log('C_COLOR', this.payload)
         this.confirm.call(this, {...this.payload, color: this.value})
         this.cancel()
       }

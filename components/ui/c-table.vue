@@ -137,11 +137,14 @@
   @import "../../assets/scss/vars";
 
   .table {
-    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 95%;
+    /*max-width: 1000px;*/
     /*overflow: hidden;*/
 
     &__wrapper {
-      max-width: 100%;
+      max-width: 98%;
       overflow-x: scroll;
     }
 
@@ -156,10 +159,25 @@
     }
 
     &__filters {
+      box-sizing: border-box;
       display: flex;
+
+      max-width: 98%;
 
       justify-content: space-between;
       align-items: flex-end;
+
+      .input {
+        height: 3rem;
+      }
+
+      .dropmenu {
+        height: 3rem;
+
+        &__value {
+          height: 3rem;
+        }
+      }
     }
 
     &__footer {
@@ -168,11 +186,13 @@
       justify-content: space-between;
       align-items: center;
 
-      margin-bottom: 2rem;
+      margin: 2rem 0;
       padding:  0 2rem;
     }
 
     th {
+      vertical-align: top;
+
       padding: 1rem;
       border-bottom: .1rem solid $color-gray-1;
     }

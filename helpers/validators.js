@@ -1,5 +1,6 @@
 export function validatorLength(maxLength) {
   return function(value) {
+    console.log('validatorLength')
     if (value.length > maxLength) {
       return {
         value: false,

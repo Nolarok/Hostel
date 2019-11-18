@@ -1,28 +1,27 @@
 <template>
   <div class="input-wrapper">
-    <div class="input-error">{{this.errorMessage || " "}}</div>
     <input
       v-if="options.type !== 'textarea'"
       v-model="value"
-      :class="'input ' + (!isValid ? 'invalid' : '')"
+      :class="'input'"
       @input="handlerInput"
 
       :type="options.type"
       :id="options.id"
       :name="options.name"
-      :placeholder="options.placeholder"
+      :placeholder="options.placeholder || 'Введите данные'"
     />
 
     <textarea
       v-else
       v-model="value"
-      :class="'textarea ' + (!isValid ? 'invalid' : '')"
+      :class="'textarea'"
       @input="handlerInput"
+
       :id="options.id"
       :name="options.name"
-      :placeholder="options.placeholder"
+      :placeholder="options.placeholder || 'Введите данные'"
     ></textarea>
-
   </div>
 
 </template>
@@ -31,12 +30,6 @@
   export default {
     name: "c-input",
     props: {
-      validators: {
-        type: Array,
-        default() {
-          return []
-        }
-      },
       options: {
         type: Object,
         default() {
@@ -46,43 +39,30 @@
             default: ''
           }
         }
+      },
+      action: {
+        type: Function,
+        default: () => 0
       }
     },
 
     data() {
       return {
         value: this.options.default,
-        errorMessage: ''
       }
     },
 
-    computed: {
-      isValid: function () {
-        return this.validators.every(validator => {
-          const result = validator(this.value)
-          if (!result.value) this.errorMessage = result.message
-
-          return result.value
-        })
-      }
-    },
+    computed: {},
 
     methods: {
       handlerInput() {
-        this.errorMessage = ""
-        if (!this.isValid) {
-          this.$emit('input', '~~error~~')
-        } else {
-          this.$emit('input', this.value)
-        }
+        this.action(this.value)
+        this.$emit('input', this.value)
       },
 
       handlerChange() {
-        if (!this.isValid) {
-          this.$emit('change', '~~error~~')
-        } else {
-          this.$emit('change', this.value)
-        }
+        this.action(this.value)
+        this.$emit('input', this.value)
       }
     },
   }

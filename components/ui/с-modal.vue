@@ -20,6 +20,11 @@
         type: Function,
         required: true
       },
+
+      externalClose: {
+        type: Function,
+        default: () => 0
+      },
     },
 
     name: "c-modal",
@@ -51,6 +56,7 @@
 
     mounted() {
       this.externalOpen(this.open)
+      this.externalClose(this.close)
     }
   }
 </script>

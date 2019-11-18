@@ -12,7 +12,10 @@
       >
         {{placeholder}}
       </div>
-      <div v-else>
+      <div
+        v-else
+        :style="{fontSize: size || null}"
+      >
         {{valueToString(value)}}
       </div>
     </div>
@@ -45,8 +48,8 @@
       default: {},
 
       placeholder: {
-        type: String,
-        default: 'Выберите значение...'
+        type: [String, Number],
+        default: 'Выберите значение'
       },
 
       valueToString: {
@@ -54,6 +57,11 @@
         default: (value) => {
           return value.toString()
         }
+      },
+
+      size: {
+        type: String,
+        default: ''
       }
     },
 
@@ -113,6 +121,11 @@
     svg {
       position: absolute;
       right: 1rem;
+    }
+
+    &__placeholder {
+      /*font-size: 1.2rem;*/
+      color: #757575;
     }
 
     &__value {

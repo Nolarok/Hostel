@@ -1,6 +1,6 @@
 <template>
   <div
-    @click.prevent="action"
+    @click.prevent="test"
     :class="'button ' + type"
     :style="{
       ...prop
@@ -40,6 +40,11 @@
 
       }
     },
+    methods: {
+      test() {
+        this.action()
+      }
+    }
 
   }
 </script>
@@ -106,7 +111,7 @@
 
   .svg {
     height: 2rem;
-    width: 2rem;
+    /*width: 2rem;*/
 
     padding: 0;
 

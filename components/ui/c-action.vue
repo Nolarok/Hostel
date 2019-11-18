@@ -20,7 +20,7 @@
             index: 2,
             value: 'Заблокирована',
             table: tableName
-           })}"
+          })}"
         />
 
         <c-confirm
@@ -38,18 +38,29 @@
           :payload="{id: info.id, table: tableName}"
         />
 
-        <c-new-user
+        <c-user-form
           v-if="info.type === 'edit_user'"
-          :cancel="() => {scope.controls.close(); CLEAR({form: 'user'})}"
-          :confirm="EDIT_RECORD"
-          :payload="{id: info.id, table: tableName}"
+          :cancel="scope.controls.close"
+          :default="info.id"
         />
 
-        <c-new-user
+        <c-guest-from
+          v-if="info.type === 'edit_guest'"
+          :cancel="scope.controls.close"
+          :default="info.id"
+        />
+
+<!--        <c-new-user-->
+<!--          v-if="info.type === 'edit_user'"-->
+<!--          :cancel="() => {scope.controls.close(); CLEAR({form: 'user'})}"-->
+<!--          :confirm="EDIT_RECORD"-->
+<!--          :payload="{id: info.id, table: tableName}"-->
+<!--        />-->
+
+        <c-user-form
           v-if="info.type === 'create_user'"
           :cancel="scope.controls.close"
-          :confirm="CREATE_RECORD"
-          :payload="{id: info.id, table: tableName}"
+          :default="info.id"
         />
 <!--        <c-new-guest-->
 <!--          v-if="info.type === 'edit'"-->
@@ -73,10 +84,12 @@
   import CNewGuest from "./c-new-guest"
 
   import {mapGetters, mapMutations} from "vuex"
+  import CUserForm from "./c-user-form"
+  import CGuestFrom from "./c-guest-form"
 
   export default {
     name: "c-action",
-    components: {CNewGuest, CNewUser, CColorPicker, CConfirm, CDialog, CButton, CSvg, CModal},
+    components: {CGuestFrom, CUserForm, CNewGuest, CNewUser, CColorPicker, CConfirm, CDialog, CButton, CSvg, CModal},
     props: {
       info: {
         type: Object,
@@ -151,7 +164,9 @@
         const matches = {
           block: 'Заблокировать',
           edit_user: 'Редактирование',
+          edit_guest: 'Редактирование',
           create_user: 'Новый пользователь',
+          create_guest: 'Заселение',
           fill: 'Заливка',
           remove: 'Удаление',
         }

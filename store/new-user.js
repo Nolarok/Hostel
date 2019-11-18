@@ -37,14 +37,9 @@ export const getters = {
   },
 
   GET_ALL_VALUES: (state) => ({form}) => {
-    console.log('GET_ALL_VALUES', form)
-
     return state[form]
   },
 
-  HAS_ERRORS: {
-
-  }
 }
 
 function formatDate(date) {

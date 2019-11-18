@@ -2,8 +2,8 @@
   <div class="page">
     <v-app>
       <c-table
-        tableName="users"
-        :toolbarActions="['create_user', 'upload']"
+        tableName="guests"
+        :toolbarActions="['create_guest', 'upload']"
       />
     </v-app>
   </div>
@@ -16,10 +16,14 @@
   import CFileLoader from "../components/ui/c-file-loader"
   import CDatePicker from "../components/ui/c-date-picker"
   import CStatus from "../components/ui/c-status"
+  import CForm from "../components/ui/c-form"
+  import CFormInput from "../components/ui/c-form-input"
+  import CInput from "../components/ui/c-input"
+  import CDropbox from "../components/ui/c-dropbox"
 
   export default {
     name: "page",
-    components: {CStatus, CDatePicker, CFileLoader, CSvg, CButton, CTable},
+    components: {CDropbox, CInput, CFormInput, CForm, CStatus, CDatePicker, CFileLoader, CSvg, CButton, CTable},
     data() {
       return {
         picker: new Date().toISOString().substr(0, 10),
@@ -32,6 +36,7 @@
 
 <style scoped>
   .page {
-    padding: 1rem;
+    box-sizing: border-box;
+    padding: 2rem;
   }
 </style>

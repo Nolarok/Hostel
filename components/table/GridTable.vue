@@ -122,7 +122,6 @@
 
     async mounted() {
       await this.GET_TABLE_DATA()
-      console.log('table', this.GET_ONE_DIMENSION_TABLE_DATA)
     }
   }
 </script>

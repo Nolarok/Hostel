@@ -74,3 +74,8 @@ body {
 .hidden {
   display: none;
 }
+
+
+.v-application.v-application--is-ltr.theme--light {
+  background: inherit;
+}
