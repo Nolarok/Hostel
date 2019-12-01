@@ -144,11 +144,7 @@
           this.action(this.values)
         }
       }
-    },
-    mounted() {
-      console.log(this.default, this.dialogTitle)
     }
-
   }
 </script>
 

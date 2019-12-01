@@ -70,6 +70,7 @@
 
     cursor: pointer;
 
+
     svg {
       // ...
     }
@@ -89,13 +90,11 @@
       text-decoration: none;
       color: inherit;
 
+      transition: all .2s;
+
       &:visited {
         color: inherit;
       }
-    }
-
-    &:hover {
-      // ...
     }
   }
 
@@ -121,5 +120,10 @@
   .text {
     height: 3.4rem;
     width: auto;
+
+    &:hover {
+      background: $color-main;
+      color: $color-contrast;
+    }
   }
 </style>

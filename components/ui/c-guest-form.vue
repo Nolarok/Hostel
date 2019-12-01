@@ -3,7 +3,9 @@
     :form="'guests'"
     :cancel="cancel"
     :confirm="confirm"
+    :additional-data="{id: this.default}"
     addClass="guests"
+    :endpoint="this.default ? '/guests/update' : '/guests/create'"
   >
     <template #default="formScope">
       <!--      checkin-->
@@ -59,7 +61,7 @@
               >
                 <template #default="scope">
                   <c-menu
-                    :data="['10:00', '10:30']"
+                    :data="['9:00', '10:00', '11:00', '12:00', '13:00', '14:00']"
                     :default="{index: 0}"
                     :action="scope.controls.setValue"
                   />
@@ -134,11 +136,10 @@
               :default="scope.controls.default || []"
               placeholder="Выберите"
               @change="scope.controls.changeValue"
-
             >
               <template #default="scope">
                 <c-menu
-                  :data="['Обед', 'Завтрак']"
+                  :data="['Завтрак-Ужин', 'Завтрак', 'Ужин']"
                   :default="{index: 1}"
                   :action="scope.controls.setValue"
                 />
@@ -149,47 +150,8 @@
 
         <c-form-input
           :form="formScope.controls.form"
-          :field="'category'"
-          :label="'Категория'"
-        >
-          <template #default="scope">
-            <c-drop
-              icon="triangle"
-              :default="scope.controls.default || []"
-              placeholder="Выберите"
-              @change="scope.controls.changeValue"
-
-            >
-              <template #default="scope">
-                <c-menu
-                  :data="['Категория-1', 'Категория-2']"
-                  :default="{index: 1}"
-                  :action="scope.controls.setValue"
-                />
-              </template>
-            </c-drop>
-          </template>
-        </c-form-input>
-
-        <c-form-input
-          :form="formScope.controls.form"
-          :field="'fact'"
-          :label="'Факт, бронь счет'"
-        >
-          <template #default="scope">
-            <c-input
-              :action="scope.controls.changeValue"
-              :options="{
-                default: scope.controls.default,
-              }"
-            />
-          </template>
-        </c-form-input>
-
-        <c-form-input
-          :form="formScope.controls.form"
-          :field="'paid'"
-          :label="'Оплата'"
+          :field="'bill'"
+          :label="'Стоимость, счет'"
         >
           <template #default="scope">
             <c-input
@@ -218,8 +180,83 @@
 
         <c-form-input
           :form="formScope.controls.form"
-          :field="'bill'"
-          :label="'Стоимость, счет'"
+          :field="'category'"
+          :label="'Категория'"
+        >
+          <template #default="scope">
+            <c-drop
+              icon="triangle"
+              :default="scope.controls.default || []"
+              placeholder="Выберите"
+              @change="scope.controls.changeValue"
+
+            >
+              <template #default="scope">
+                <c-menu
+                  :data="['2М', 'К', 'КБ', '2МБ', 'КБП', '2МБП', 'FDI']"
+                  :default="{index: 1}"
+                  :action="scope.controls.setValue"
+                />
+              </template>
+            </c-drop>
+          </template>
+        </c-form-input>
+
+        <c-form-input
+          :form="formScope.controls.form"
+          :field="'hotel'"
+          :label="'Гостиница'"
+        >
+          <template #default="scope">
+            <c-drop
+              icon="triangle"
+              :default="scope.controls.default || []"
+              placeholder="Выберите"
+              @change="scope.controls.changeValue"
+            >
+              <template #default="scope">
+                <c-menu
+                  :data="['Альфа', 'Бэта', 'Дельта', 'Гамма']"
+                  :default="{index: 1}"
+                  :action="scope.controls.setValue"
+                />
+              </template>
+            </c-drop>
+          </template>
+        </c-form-input>
+
+        <c-form-input
+          :form="formScope.controls.form"
+          :field="'fact'"
+          :label="'Факт, бронь счет'"
+        >
+          <template #default="scope">
+            <c-input
+              :action="scope.controls.changeValue"
+              :options="{
+                default: scope.controls.default,
+              }"
+            />
+          </template>
+        </c-form-input>
+
+        <c-form-input
+          :form="formScope.controls.form"
+          :field="'status'"
+          :label="'Статус'"
+        >
+          <template #default="scope">
+            <c-status-select
+              :action="scope.controls.changeValue"
+              :default="scope.controls.default"
+            />
+          </template>
+        </c-form-input>
+
+        <c-form-input
+          :form="formScope.controls.form"
+          :field="'paid'"
+          :label="'Оплата'"
         >
           <template #default="scope">
             <c-input
@@ -280,10 +317,11 @@
   import CDatePicker from "./c-date-picker"
   import CMenu from "./c-menu"
   import CDropbox from "./c-dropbox"
+  import CStatusSelect from "./c-status-select"
 
   export default {
     name: "c-guest-form",
-    components: {CDropbox, CMenu, CDatePicker, CDrop, CInput, CFormInput, CForm},
+    components: {CStatusSelect, CDropbox, CMenu, CDatePicker, CDrop, CInput, CFormInput, CForm},
     props: {
       cancel: {
         type: Function,
@@ -301,14 +339,12 @@
       ...mapMutations('users', ['CREATE_RECORD', 'EDIT_RECORD']),
       ...mapMutations('forms', ['CHANGE_VALUES', 'CLEAR']),
 
-      confirm() {
-        let data = this.GET_ALL_VALUES({form: 'guests'})
-        console.log('DATA', data)
-
-        data = [
-          ['not_check_in'],
+      confirm(data) {
+        const formatedData = [
+          data.status,
           data.checkin, data.time,
           data.checkout, data.name,
+          data.hotel,
           data.fact, data.category,
           data.food, data.bill,
           data.payNotes, data.contacts,
@@ -319,44 +355,41 @@
 
         if (this.default) {
           this.EDIT_RECORD({
-            data,
+            data: formatedData,
             id: this.default,
             table: 'guests'
           })
         } else {
           this.CREATE_RECORD({
-            data,
+            data: formatedData,
+            id: data.id,
             table: 'guests'
           })
         }
-
       }
     },
     created() {
-      console.log('created')
-      // return
-
       if (this.default) {
         const rowData = this.GET_ROW_DATA({id: this.default, table: 'guests'})
-
-        console.log('rowData', rowData)
 
         this.CHANGE_VALUES({
           form: 'guests',
           data: {
+            status: rowData[2],
             checkin: rowData[3],
             time: rowData[4],
             checkout: rowData[5],
             name: rowData[6],
-            fact: rowData[7],
-            category: rowData[8],
-            food: rowData[9],
-            bill: rowData[10],
-            payNotes: rowData[11],
-            contacts: rowData[12],
-            paid: rowData[13],
-            comment: rowData[14],
-            advanced: rowData[15],
+            hotel: rowData[7],
+            fact: rowData[8],
+            category: rowData[9],
+            food: rowData[10],
+            bill: rowData[11],
+            payNotes: rowData[12],
+            contacts: rowData[13],
+            paid: rowData[14],
+            comment: rowData[15],
+            advanced: rowData[16],
           }
         })
       } else {

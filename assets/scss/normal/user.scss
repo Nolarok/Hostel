@@ -4,14 +4,14 @@
   grid-template-rows: 100%;
   grid-template-columns: repeat(3, min-content);
 
-  grid-gap: 1rem;
+  grid-gap: 3rem;
 
   justify-items: end;
   align-items: center;
 
   height: 100%;
 
-  padding-right: 2rem;
+  padding-right: 4rem;
 
   &__avatar-container {
     width: 5.6rem;

@@ -1,11 +1,11 @@
 <template>
-  <div class="page">
-    <v-app>
-      <c-table
-        tableName="guests"
-        :toolbarActions="['create_guest', 'upload']"
-      />
-    </v-app>
+  <div id="guests" class="page">
+    <h1 class="page-header">Заселение</h1>
+    <c-table
+      tableName="guests"
+      :toolbarActions="['create_guest', 'upload']"
+      endpoint="http://127.0.0.1:3111/api/v1/guests/"
+    />
   </div>
 </template>
 
@@ -15,15 +15,15 @@
   import CSvg from "../components/ui/c-svg"
   import CFileLoader from "../components/ui/c-file-loader"
   import CDatePicker from "../components/ui/c-date-picker"
-  import CStatus from "../components/ui/c-status"
   import CForm from "../components/ui/c-form"
   import CFormInput from "../components/ui/c-form-input"
   import CInput from "../components/ui/c-input"
   import CDropbox from "../components/ui/c-dropbox"
+  import CStatusSelect from "../components/ui/c-status-select"
 
   export default {
     name: "page",
-    components: {CDropbox, CInput, CFormInput, CForm, CStatus, CDatePicker, CFileLoader, CSvg, CButton, CTable},
+    components: {CStatusSelect, CDropbox, CInput, CFormInput, CForm, CDatePicker, CFileLoader, CSvg, CButton, CTable},
     data() {
       return {
         picker: new Date().toISOString().substr(0, 10),
@@ -34,9 +34,30 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss">
+  @import "../assets/scss/vars";
+
+  .page-header {
+    font-size: 2.5rem;
+    color: $color-main;
+    text-transform: uppercase;
+
+    margin-bottom: 2rem;
+  }
+
   .page {
     box-sizing: border-box;
     padding: 2rem;
+  }
+
+  .table {
+    td:nth-child(3),
+    td:nth-child(5),
+    td:nth-child(7),
+    td:nth-child(8),
+    td:nth-child(9),
+    td:nth-child(10){
+      min-width: 9.5rem;
+    }
   }
 </style>

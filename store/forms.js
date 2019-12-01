@@ -5,19 +5,19 @@ export const state = () => ({
   user: {
     fields: {
       name: {
-        value: 'Вася',
+        value: '',
         type: 'string',
         validators: [validatorLength(128)],
         errors: []
       },
       email: {
-        value: 'mail@mail.ru',
+        value: '',
         type: 'string',
         validators: [],
         errors: []
       },
       role: {
-        value: 'Пользователь',
+        value: '',
         type: 'string',
         validators: [],
         errors: []
@@ -30,14 +30,20 @@ export const state = () => ({
 
   guests: {
     fields: {
-      // status: {
-      //   value: [],
-      //   type: 'set',
-      //   validators: [],
-      //   errors: [],
-      // },
+      hotel: {
+        value: '',
+        type: 'string',
+        validators: [],
+        errors: [],
+      },
+      status: {
+        value: [],
+        type: 'set',
+        validators: [],
+        errors: [],
+      },
       checkin: {
-        value: '2019/01/01',
+        value: '',
         type: 'string',
         validators: [],
         errors: [],
@@ -55,7 +61,7 @@ export const state = () => ({
         errors: [],
       },
       name: {
-        value: [1, 2],
+        value: [],
         type: 'set',
         validators: [],
         errors: [],
@@ -116,13 +122,33 @@ export const state = () => ({
       },
     },
 
-    required: ['checkin', 'time', 'checkout', 'category', 'contacts'],
+    required: ['checkin', 'time', 'name', 'food', 'checkout', 'category', 'contacts', 'bill', 'payNotes'],
     errors: []
   },
+
+  login: {
+    fields: {
+      email: {
+        value: '',
+        type: 'string',
+        validators: [],
+        errors: []
+      },
+
+      password: {
+        value: '',
+        type: 'string',
+        validators: [],
+        errors: []
+      },
+    },
+    required: ['email', 'password'],
+    errors: []
+  }
 })
 
 export const actions = {
-  SUBMIT({state, commit}, {form}) {
+  async SUBMIT({state, commit, getters}, {form, endpoint, data}) {
     commit('CLEAR_FORM_ERRORS', {form})
 
     let key
@@ -150,11 +176,23 @@ export const actions = {
       }
     }
 
-    if(state[form].errors.length > 0) {
+    if (state[form].errors.length > 0) {
       return false
     }
 
-    return true
+    const result = await this.$axios.$post(endpoint,
+      data, {
+        headers: {
+          Authorization: 'Bearer ' + this.$cookies.get('token')
+        }
+      }
+    )
+
+    if (!result.success) {
+      commit('ADD_FORM_ERROR', {form, error: result.data.message})
+    }
+
+    return result
   }
 }
 
@@ -168,7 +206,6 @@ export const mutations = {
   },
 
   CHANGE_VALUE(state, {name, value, form}) {
-    console.log('CHANGE_VALUE', name, value, form)
     let {validators} = state[form].fields[name]
     state[form].fields[name].errors = []
 
@@ -187,10 +224,10 @@ export const mutations = {
     }
   },
 
-  CHANGE_VALUES(state, {data, form})  {
+  CHANGE_VALUES(state, {data, form}) {
     let key
     for (key in data) {
-      if(state[form].fields[key].type === 'string') {
+      if (state[form].fields[key].type === 'string') {
 
         state[form].fields[key].value = data[key]
 
@@ -236,6 +273,10 @@ export const getters = {
   },
 
   GET_VALUE: (state) => ({name, form}) => {
+    if (name === 'status') {
+      console.log('GET_VALUE', name, form, state[form].fields[name].value)
+    }
+
     return state[form].fields[name].value
   },
 
@@ -247,6 +288,8 @@ export const getters = {
     for (key in state[form].fields) {
       result[key] = state[form].fields[key].value
     }
+
+    console.log('GET_ALL_VALUES', result)
 
     return result
   },
@@ -265,7 +308,7 @@ function stringToDate(date) {
   const regexp = /(\d{2}).(\d{2}).(\d{2,4})/
   const parsedDate = date.match(regexp)
 
-  if(!parsedDate) return null
+  if (!parsedDate) return null
 
   return `${parsedDate[1]}/${parsedDate[0]}/${parsedDate[2]}`
 

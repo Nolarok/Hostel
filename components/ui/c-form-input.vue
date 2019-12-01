@@ -57,7 +57,7 @@
     methods: {
       ...mapMutations('forms', ['CHANGE_VALUE', 'CHANGE_VALUES']),
 
-      ...mapActions('forms', ['']),
+      // ...mapActions('forms', ['']),
 
       changeValue(value) {
         this.CHANGE_VALUE({

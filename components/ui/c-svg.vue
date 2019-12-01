@@ -1,5 +1,5 @@
 <template>
-  <cSvg v-once
+  <component :is="this.svg.split('_').join('')"
     :style="{
       height: '100%',
       color: '#414671',
@@ -76,7 +76,7 @@
 
     created() {
       this.svgList = svgList
-      this.$options.components.cSvg = this.svgList[this.svg]
+      this.$options.components[this.svg.split('_').join('')] = this.svgList[this.svg]
     },
 
     updated() {

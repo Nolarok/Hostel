@@ -36,15 +36,22 @@ module.exports = {
   */
   plugins: [
   ],
-  /*h
+  /*
   ** Nuxt.js modules
   */
   modules: [
     '@nuxtjs/axios',
+    'cookie-universal-nuxt',
   ],
 
+  router: {
+    middleware: 'page'
+  },
+
   axios: {
-    baseUrl: 'http://127.0.0.1:2000/test',
+    baseURL: 'http://127.0.0.1:3111/api/v1',
+    proxyHeaders: false,
+    credentials: false
   },
   /*
   ** Build configuration

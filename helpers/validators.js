@@ -1,5 +1,5 @@
 export function validatorLength(maxLength) {
-  return function(value) {
+  return function (value) {
     console.log('validatorLength')
     if (value.length > maxLength) {
       return {
@@ -17,7 +17,7 @@ export function validatorLength(maxLength) {
 }
 
 export function validatorNotEmpty() {
-  return function(value) {
+  return function (value) {
     if (value.length <= 0) {
       return {
         value: false,

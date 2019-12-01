@@ -31,6 +31,7 @@
 
   import CButton from "./c-button"
   import CFormNotice from "./c-form-notice"
+
   export default {
     name: "c-form",
     components: {CFormNotice, CButton},
@@ -47,34 +48,44 @@
         type: String,
         required: true
       },
+      additionalData: {
+        type: Object,
+        default: () => {}
+      },
+      endpoint: {
+        type: String,
+        required: true
+      },
       addClass: {
         type: String,
         default: ''
       }
     },
     computed: {
-      ...mapGetters('forms', ['GET_FORM_ERRORS'])
+      ...mapGetters('forms', ['GET_FORM_ERRORS', 'GET_ALL_VALUES'])
     },
     methods: {
       ...mapActions('forms', ['SUBMIT']),
       ...mapMutations('forms', ['CHANGE_VALUES']),
 
-      close() {
-      },
-
       async accept() {
-        const result = await this.SUBMIT({form: this.form})
+        const formData = this.GET_ALL_VALUES({form: this.form})
 
-        if (result) {
-          this.confirm()
+        const result = await this.SUBMIT({
+          form: this.form,
+          endpoint: this.endpoint,
+          data: {...this.additionalData, ...formData}
+        })
+
+        if (result.success) {
+          this.confirm(result.data)
           this.cancel()
         }
       },
 
-      action() {
-      }
-    },
-
+      close() {},
+      action() {}
+    }
   }
 </script>
 
@@ -82,6 +93,7 @@
   @import "../../assets/scss/vars";
 
   .form {
+    box-sizing: border-box;
     padding: 2rem 2rem 0 2rem;
 
     &__actions {

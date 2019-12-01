@@ -19,7 +19,7 @@
 
   export default {
     name: "c-status",
-    components: { CSvg},
+    components: {CSvg},
     props: {
       type: String,
       default: ''
@@ -27,25 +27,25 @@
     data() {
       return {
         matches: {
-          'check_in': {
+          'Заехал': {
             fill: '#000000',
             text: 'Заехал',
             icon: 'user'
           },
 
-          'not_check_in': {
+          'Не заехал': {
             fill: '#ff0000',
             text: 'Не заехал',
-            icon: 'user_slash'
+            icon: 'user'
           },
 
-          'payed': {
+          'Оплачено': {
             fill: '#00aa00',
             text: 'Оплачено',
             icon: 'ruble'
           },
 
-          'not_payed': {
+          'Не оплачено': {
             fill: '#ff0000',
             text: 'Не оплачено',
             icon: 'ruble'
@@ -56,6 +56,7 @@
     },
     computed: {
       match() {
+        console.log('this.type', this.type, this.matches)
         return this.matches[this.type]
       }
     }

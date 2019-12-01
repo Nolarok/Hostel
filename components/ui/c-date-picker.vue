@@ -64,8 +64,9 @@
     position: relative;
     width: 100%;
 
-    .v-picker__title {
-      background: $color-main;
+    .v-picker__title,
+    .v-picker__title.primary {
+      background: $color-main !important;
     }
 
     .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {

@@ -3,23 +3,25 @@
     <div class="table__filters">
       <c-input
         :options="{
-         placeholder: 'Поиск...'
-      }"
+          placeholder: 'Поиск...'
+        }"
         @input="handlerInputSearch"
       />
-
+      <div class="table__filter-rows">
+        <span>Записей на странице:</span>
       <c-drop
         @change="handlerChangeRowsPerPage"
         :default="10"
       >
         <template #default="scope">
           <c-menu
-            :data="[1, 2, 3, 5, 10, 20]"
-            :default="{index: 0}"
+            :data="[1, 3, 5, 10, 15, 20]"
+            :default="{index: 1}"
             :action="scope.controls.setValue"
           />
         </template>
       </c-drop>
+      </div>
     </div>
 
     <div class="table__wrapper">
@@ -63,7 +65,7 @@
 <!--</c-drop>-->
 
 <script>
-  import {mapGetters, mapMutations} from "vuex"
+  import {mapGetters, mapMutations, mapActions} from "vuex"
   import CCell from "./c-cell"
   import CRow from "./c-row"
   import CPagination from "./c-pagination"
@@ -92,11 +94,16 @@
       toolbarActions: {
         type: Array,
         default: () => []
+      },
+      endpoint: {
+        type: String,
+        required: true
       }
     },
 
     data() {
-      return {}
+      return {
+      }
     },
 
     computed: {
@@ -124,10 +131,18 @@
         'CHANGE_OFFSET',
         'CHANGE_ROWS_PER_PAGE',
         'FILTER_BY_COL',
+      ]),
+
+      ...mapActions('users', [
+        'GET_TABLE_DATA'
       ])
     },
 
     mounted() {
+      this.GET_TABLE_DATA({
+        table: this.tableName,
+        endpoint: this.endpoint
+      })
 
     },
   }
@@ -137,18 +152,16 @@
   @import "../../assets/scss/vars";
 
   .table {
+    position: relative;
     box-sizing: border-box;
-    width: 100%;
-    max-width: 95%;
-    /*max-width: 1000px;*/
-    /*overflow: hidden;*/
 
     &__wrapper {
-      max-width: 98%;
       overflow-x: scroll;
+      width: calc(100vw - 31rem);
     }
 
     &__content {
+      grid-column: 1 / 2;
       width: 100%;
 
       margin: 1rem 0 1rem;
@@ -156,6 +169,28 @@
       border-collapse: collapse;
 
       font-size: 1.3rem;
+
+      > thead > tr > th {
+        vertical-align: top;
+
+        padding: 1rem;
+        border-bottom: .1rem solid $color-gray-1;
+      }
+
+      > tbody > tr > td {
+        max-width: 40rem;
+
+
+        padding: .4rem 1rem;
+
+        border-bottom: .1rem solid $color-gray-1;
+        border-left: .1rem solid $color-gray-1;
+
+        &:first-child {
+          border-left: none;
+        }
+      }
+
     }
 
     &__filters {
@@ -180,6 +215,16 @@
       }
     }
 
+    &__filter-rows {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 1rem;
+        font-size: 1.4rem;
+      }
+    }
+
     &__footer {
       display: flex;
 
@@ -188,27 +233,6 @@
 
       margin: 2rem 0;
       padding:  0 2rem;
-    }
-
-    th {
-      vertical-align: top;
-
-      padding: 1rem;
-      border-bottom: .1rem solid $color-gray-1;
-    }
-
-    td {
-      max-width: 40rem;
-
-
-      padding: .4rem 1rem;
-
-      border-bottom: .1rem solid $color-gray-1;
-      border-left: .1rem solid $color-gray-1;
-
-      &:first-child {
-        border-left: none;
-      }
     }
   }
 </style>

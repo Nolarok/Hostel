@@ -3,6 +3,13 @@
     <div class="confirm__question">
       {{question}}
     </div>
+    <div class="form__notice">
+      <c-form-notice
+        v-for="(message, index) in errors"
+        :key="index"
+        :text="message"
+      />
+    </div>
     <div class="confirm__actions">
       <c-button
         :action="action"
@@ -16,9 +23,10 @@
 
 <script>
   import CButton from "./c-button"
+  import CFormNotice from "./c-form-notice"
   export default {
     name: "c-confirm",
-    components: {CButton},
+    components: {CFormNotice, CButton},
     props: {
       question: {
         type: String,
@@ -40,11 +48,21 @@
         required: true
       }
     },
+    data() {
+      return {
+        errors: []
+      }
+    },
 
     methods: {
-      action() {
-        this.confirm.call(this, this.payload)
-        this.cancel()
+      async action() {
+        const result = await this.confirm.call(this, this.payload)
+        if (!result.error) {
+          this.cancel()
+          return
+        }
+
+        this.errors.push(result.error)
       }
     },
 

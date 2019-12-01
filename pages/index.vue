@@ -1,11 +1,11 @@
 <template>
   <div class="page">
-    <v-app>
-      <c-table
-        tableName="users"
-        :toolbarActions="['create_user']"
-      />
-    </v-app>
+    <h1 class="page-header">Администрирование</h1>
+    <c-table
+      tableName="users"
+      :toolbarActions="['create_user']"
+      endpoint="http://127.0.0.1:3111/api/v1/users/"
+    />
   </div>
 </template>
 
@@ -36,6 +36,6 @@
 
 <style scoped>
   .page {
-    padding: 1rem;
+    padding: 2rem;
   }
 </style>

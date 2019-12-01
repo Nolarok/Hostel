@@ -44,7 +44,7 @@
 <style lang="scss" scoped>
   .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
   }
 </style>
 

@@ -13,28 +13,24 @@
       <template #default="scope">
         <c-confirm
           v-if="info.type === 'block'"
-          question="Заблокировать пользователя?"
+          question="Изменить статус пользователя?"
           :cancel="scope.controls.close"
-          :confirm="() => {CHANGE_CELL_VALUE({
-            id: info.id,
-            index: 2,
-            value: 'Заблокирована',
-            table: tableName
-          })}"
+          :confirm="blockUser"
+          :payload="{endpoint: tableName}"
         />
 
         <c-confirm
           v-if="info.type === 'remove'"
           question="Удалить запись?"
           :cancel="scope.controls.close"
-          :confirm="DELETE_RECORD"
-          :payload="{id: info.id, table: tableName}"
+          :confirm="deleteRow"
+          :payload="{endpoint: tableName}"
         />
 
         <c-color-picker
           v-if="info.type === 'fill'"
           :cancel="scope.controls.close"
-          :confirm="FILL_ROW"
+          :confirm="changeColor"
           :payload="{id: info.id, table: tableName}"
         />
 
@@ -50,23 +46,11 @@
           :default="info.id"
         />
 
-<!--        <c-new-user-->
-<!--          v-if="info.type === 'edit_user'"-->
-<!--          :cancel="() => {scope.controls.close(); CLEAR({form: 'user'})}"-->
-<!--          :confirm="EDIT_RECORD"-->
-<!--          :payload="{id: info.id, table: tableName}"-->
-<!--        />-->
-
         <c-user-form
           v-if="info.type === 'create_user'"
           :cancel="scope.controls.close"
           :default="info.id"
         />
-<!--        <c-new-guest-->
-<!--          v-if="info.type === 'edit'"-->
-<!--          :cancel="scope.controls.close"-->
-<!--          :confirm="() => 0"-->
-<!--        />-->
 
       </template>
     </c-dialog>
@@ -83,7 +67,7 @@
   import CNewUser from "./c-new-user"
   import CNewGuest from "./c-new-guest"
 
-  import {mapGetters, mapMutations} from "vuex"
+  import {mapGetters, mapMutations, mapActions} from "vuex"
   import CUserForm from "./c-user-form"
   import CGuestFrom from "./c-guest-form"
 
@@ -105,6 +89,7 @@
     },
     methods: {
       ...mapMutations('users', ['DELETE_RECORD', 'FILL_ROW', 'CREATE_RECORD', 'EDIT_RECORD', 'CHANGE_CELL_VALUE']),
+      ...mapActions('users', ['SET_ROW_COLOR']),
       ...mapMutations('new-user', ['CHANGE_VALUES', 'CLEAR']),
 
       getSvgType(type) {
@@ -162,7 +147,7 @@
 
       getTitle(type) {
         const matches = {
-          block: 'Заблокировать',
+          block: 'Редактирование',
           edit_user: 'Редактирование',
           edit_guest: 'Редактирование',
           create_user: 'Новый пользователь',
@@ -178,12 +163,70 @@
         this.openModal = callback
       },
 
+      async changeColor({color}) {
+        this.SET_ROW_COLOR({
+          table: this.tableName,
+          id: this.info.id,
+          color
+        })
+      },
+
+      async deleteRow({endpoint}) {
+        try {
+          const result = await this.$axios.$post(`/${endpoint}/delete`,
+            {id: this.info.id}, {
+              headers: {
+                Authorization: 'Bearer ' + this.$cookies.get('token')
+              }
+            }
+          )
+        } catch(error) {
+          console.error(error)
+          return {error: error.message}
+        }
+
+        this.DELETE_RECORD({
+          id: this.info.id,
+          table: this.tableName
+        })
+
+        return true
+      },
+
+      async blockUser({endpoint}) {
+        let response
+        const rowData = this.GET_ROW_DATA({
+          id: this.info.id,
+          table: this.tableName
+        })
+        const newStatus = rowData[2] === 'Активна' ? 'Заблокирована' : 'Активна'
+
+        try {
+          response = await this.$axios.$post(`/${endpoint}/block`,
+            {id: this.info.id, status: newStatus}, {
+              headers: {
+                Authorization: 'Bearer ' + this.$cookies.get('token')
+              }
+            }
+          )
+        } catch(error) {
+          console.error(error)
+          return {error: 'Ошибка. Не удалось выполнить запрос.'}
+        }
+
+        this.CHANGE_CELL_VALUE({
+          id: this.info.id,
+          index: 2,
+          value: newStatus,
+          table: this.tableName
+        })
+
+        return {status: true}
+      },
+
+
       openModal() {},
     },
-
-    mounted() {
-      // console.log('mounted', this.info, this.tableName)
-    }
   }
 </script>
 

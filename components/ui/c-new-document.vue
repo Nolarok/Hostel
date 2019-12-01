@@ -37,11 +37,12 @@
       },
     },
     computed: {
-      ...mapGetters('new-guest', []),
+      // ...mapGetters('new-guest', []),
     },
     methods: {
-      ...mapMutations('new-guest', ['CHANGE_VALUE', 'CLEAR']),
+      // ...mapMutations('new-guest', ['CHANGE_VALUE', 'CLEAR']),
       handlerChange(value) {
+        console.log(value)
         this.value = value
       },
 
@@ -50,7 +51,17 @@
       },
 
       closeAndConfirm() {
-        this.CHANGE_VALUE({name: 'file', value: this.value})
+        this.$axios.$post('/guests/file',
+          {
+            file: this.value
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + this.$cookies.get('token')
+            }
+          }
+        )
+        // this.CHANGE_VALUE({name: 'file', value: this.value})
         this.cancel()
       }
     }

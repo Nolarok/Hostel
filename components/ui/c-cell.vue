@@ -23,7 +23,7 @@
       <div
         v-for="(item, index) in info.data"
         :key="index"
-      >{{item}}</div>
+      >{{item.length === 0 ? '' : item}}</div>
     </div>
 
   </td>

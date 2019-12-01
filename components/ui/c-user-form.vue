@@ -3,7 +3,9 @@
     :form="'user'"
     :cancel="cancel"
     :confirm="confirm"
+    :additional-data="{id: this.default}"
     add-class="users"
+    :endpoint="this.default ? '/users/update' : '/users/create'"
   >
     <template #default="scope">
       <c-form-input
@@ -18,7 +20,6 @@
               default: scope.controls.default,
               placeholder:'Введите имя'
             }"
-
           />
         </template>
       </c-form-input>
@@ -64,13 +65,14 @@
 </template>
 
 <script>
-  import {mapMutations, mapGetters} from 'vuex'
+  import {mapMutations, mapGetters, mapActions} from 'vuex'
 
   import CForm from "./c-form"
   import CFormInput from "./c-form-input"
   import CInput from "./c-input"
   import CDrop from "./c-drop"
   import CMenu from "./c-menu"
+
   export default {
     name: "c-user-form",
     components: {CMenu, CDrop, CInput, CFormInput, CForm},
@@ -81,6 +83,7 @@
       },
       default: {
         type: [String, Number],
+        default: ''
       }
     },
     computed: {
@@ -90,25 +93,27 @@
     methods: {
       ...mapMutations('users', ['CREATE_RECORD', 'EDIT_RECORD']),
       ...mapMutations('forms', ['CHANGE_VALUES', 'CLEAR']),
+      ...mapActions('users', ['UPDATE_ROW']),
 
-      confirm() {
-        let data = this.GET_ALL_VALUES({form: 'guest'})
-        data = ['Активна', data.name, data.email, data.role, ['block', 'edit_user', 'remove']]
+      confirm(data) {
+        const formatedData = [data.active, data.name, data.email, data.role, data.actions]
 
         if (this.default) {
-          this.EDIT_RECORD({
-            data,
+          this.EDIT_RECORD ({
+            data: formatedData,
             id: this.default,
             table: 'users'
           })
         } else {
-          this.CREATE_RECORD({
-            data,
+          this.CREATE_RECORD ({
+            data: formatedData,
+            id: data.id,
             table: 'users'
           })
         }
 
-      }
+      },
+
     },
     created() {
       if (this.default) {
