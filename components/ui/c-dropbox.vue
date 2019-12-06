@@ -221,9 +221,12 @@
 
       padding: 0 .8rem;
 
-      font-size: 1.3rem;
-
       border-top: .1rem solid $color-gray-1;
+
+      font-size: 1.3rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       &:first-child {
         border-top: none;

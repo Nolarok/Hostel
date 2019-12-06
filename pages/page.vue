@@ -4,7 +4,7 @@
     <c-table
       tableName="guests"
       :toolbarActions="['create_guest', 'upload']"
-      endpoint="http://127.0.0.1:3111/api/v1/guests/"
+      endpoint="/guests/"
     />
   </div>
 </template>

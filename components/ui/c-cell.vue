@@ -20,7 +20,7 @@
     </div>
 
     <div v-if="info.type === 'set'">
-      <div
+      <div class="nowrap"
         v-for="(item, index) in info.data"
         :key="index"
       >{{item.length === 0 ? '' : item}}</div>
@@ -49,10 +49,14 @@
   }
 </script>
 
-<style scoped>
+<style>
   .status-wrapper {
     display: flex;
     /*flex-direction: column;*/
     justify-content: space-between;
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 </style>

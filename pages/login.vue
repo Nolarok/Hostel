@@ -6,7 +6,7 @@
         :form="'login'"
         :cancel="() => {}"
         :confirm="confirm"
-        endpoint="http://127.0.0.1:3111/api/v1/users/login"
+        endpoint="/users/login"
         add-class="login__form"
       >
         <template #default="scope">

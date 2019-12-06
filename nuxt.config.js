@@ -49,7 +49,8 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://127.0.0.1:3111/api/v1',
+    // baseURL: 'http://ivankoa.loldev.ru/api/v1',
+    baseURL: 'http://localhost:3111/api/v1',
     proxyHeaders: false,
     credentials: false
   },
@@ -61,7 +62,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
 
       svgRule.test = /\.(png|jpe?g|gif|webp)$/;
 

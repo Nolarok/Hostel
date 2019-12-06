@@ -27,6 +27,14 @@
           :payload="{endpoint: tableName}"
         />
 
+        <c-confirm
+          v-if="info.type === 'print'"
+          question="Сформировать документ?"
+          :cancel="scope.controls.close"
+          :confirm="getDoc"
+          :payload="{endpoint: tableName}"
+        />
+
         <c-color-picker
           v-if="info.type === 'fill'"
           :cancel="scope.controls.close"
@@ -71,6 +79,8 @@
   import CUserForm from "./c-user-form"
   import CGuestFrom from "./c-guest-form"
 
+  import download from 'downloadjs'
+
   export default {
     name: "c-action",
     components: {CGuestFrom, CUserForm, CNewGuest, CNewUser, CColorPicker, CConfirm, CDialog, CButton, CSvg, CModal},
@@ -99,7 +109,8 @@
           edit_user: 'user_edit',
           create: 'user',
           fill: 'palette',
-          remove: 'trash'
+          remove: 'trash',
+          print: 'copy'
         }
 
         return matches[type]
@@ -140,6 +151,10 @@
           remove: () => {
             this.openModal()
           },
+
+          print: () => {
+            this.openModal()
+          },
         }
 
         return matches[type]
@@ -154,6 +169,7 @@
           create_guest: 'Заселение',
           fill: 'Заливка',
           remove: 'Удаление',
+          print: 'Загрузка'
         }
 
         return matches[type]
@@ -189,6 +205,51 @@
           id: this.info.id,
           table: this.tableName
         })
+
+        return true
+      },
+
+      async getDoc() {
+        window.open(`http://localhost:3111/api/v1/guests/doc?id=${this.info.id}`)
+        // let result
+        // try {
+        //   result = await this.$axios.$get(`/guests/doc`,
+        //     // {id: this.info.id},
+        //     {
+        //       headers: {
+        //         Authorization: 'Bearer ' + this.$cookies.get('token')
+        //       }
+        //     }
+        //   )
+        // } catch(error) {
+        //   console.error(error)
+        //   return {error: error.message}
+        // }
+        //
+        // console.log('result')
+        //
+        // download(
+        //   result,
+        //   'gh',
+        //   'application/zip'
+        // )
+        //
+        // const blob = new Blob([result], {
+        //   // type: 'plain/text'
+        //   type: 'application/octet-stream'
+        //   // type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        // })
+        //
+        // const link = document.createElement('a')
+        //
+        // link.href = window.URL.createObjectURL(blob)
+        // link.download = 'output.docx'
+        //
+        // document.body.appendChild(link)
+        //
+        // link.click()
+        //
+        // document.body.removeChild(link)
 
         return true
       },

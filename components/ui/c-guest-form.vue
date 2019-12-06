@@ -139,7 +139,7 @@
             >
               <template #default="scope">
                 <c-menu
-                  :data="['Завтрак-Ужин', 'Завтрак', 'Ужин']"
+                  :data="['Нет', 'Завтрак-Ужин', 'Завтрак', 'Ужин']"
                   :default="{index: 1}"
                   :action="scope.controls.setValue"
                 />
@@ -210,7 +210,7 @@
           <template #default="scope">
             <c-drop
               icon="triangle"
-              :default="scope.controls.default || []"
+              :default="scope.controls.default"
               placeholder="Выберите"
               @change="scope.controls.changeValue"
             >
@@ -350,7 +350,7 @@
           data.payNotes, data.contacts,
           data.paid, data.comment,
           data.advanced,
-          ['edit_guest', 'remove', 'fill']
+          ['edit_guest', 'remove', 'fill', 'print']
         ]
 
         if (this.default) {

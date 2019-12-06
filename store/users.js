@@ -86,7 +86,7 @@ export const state = () => ({
 
     options: {
       cols: {
-        //    '#'     'С',                 'ДЗ',   'Вр',   'ДВ',  'ФИО', 'Гост'  'ФБФ',   'КЗ',    'П',    '№',   'ОО',   'К',   'О',    'КГ',   'Д',   'Действия'
+        //       'id'    '#'      'С',     'ДЗ',   'Вр',   'ДВ',  'ФИО', 'Гост'  'ФБФ',   'КЗ',    'П',    '№',   'ОО',   'К',   'О',    'КГ',   'Д',   'Действия'
         types: ['auto', 'auto', 'status', 'date', 'auto', 'date', 'set', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'set', 'auto', 'auto', 'auto', 'actions'],
         sortable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
         filterable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
@@ -240,6 +240,7 @@ export const mutations = {
       },
 
       auto: (item, searchItem) => {
+        console.log('item', item)
         return item.toString().includes(searchItem.trim())
       },
     }
@@ -276,7 +277,6 @@ export const mutations = {
   },
 
   CREATE_RECORD(state, {data, id, table}) {
-    console.log('CREATE_RECORD', data, id, table)
     const result = [id, state[table].table.length + 1, ...data]
 
     Vue.set(state[table].options.rows.colors, state[table].options.rows.colors.length, {id, color: '#ffffff'})
@@ -310,6 +310,10 @@ export const mutations = {
 
   SET_ROWS_COLOR(state, {table, data}) {
     state[table].options.rows.colors = data
+  },
+
+  SET_ROW_COLOR(state, {table, data}) {
+    state[table].options.rows.colors.push(data)
   }
 }
 
@@ -412,6 +416,10 @@ export const getters = {
 
   GET_ROWS_PER_PAGE: (state) => ({table}) => {
     return state[table].options.table.rowsPerPage
+  },
+
+  GET_ROWS_COLORS: (state) => ({table}) => {
+    return state[table].options.rows.colors
   }
 }
 

@@ -124,7 +124,10 @@
     }
 
     &__placeholder {
-      /*font-size: 1.2rem;*/
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
       color: #757575;
     }
 

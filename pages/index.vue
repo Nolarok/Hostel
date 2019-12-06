@@ -4,7 +4,7 @@
     <c-table
       tableName="users"
       :toolbarActions="['create_user']"
-      endpoint="http://127.0.0.1:3111/api/v1/users/"
+      endpoint="/users/"
     />
   </div>
 </template>
