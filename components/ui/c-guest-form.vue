@@ -403,6 +403,9 @@
 </script>
 
 <style lang="scss">
+  .scale80 {
+    transform: scale(.9);
+  }
   .guests.form {
     width: 70rem;
 

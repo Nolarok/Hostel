@@ -51,10 +51,20 @@
 <style lang="scss" scoped>
   @import "../../assets/scss/vars";
 
+
+  @media screen and (max-width: 1200px) {
+    .dialog {
+      transform: scale(.85);
+    }
+  }
+
   .dialog {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+
+    transform: scale(.85);
+
 
     /*width: 60rem;*/
 

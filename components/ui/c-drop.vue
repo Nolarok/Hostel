@@ -62,7 +62,7 @@
       size: {
         type: String,
         default: ''
-      }
+      },
     },
 
     data() {
@@ -75,9 +75,10 @@
 
     methods: {
       handlerDropdownClick() {
-        this.isOpened = !this.isOpened
+        this.isOpened = true//!this.isOpened
 
         setTimeout(() => {
+          console.log('open')
           if (this.isOpened) {
             window.addEventListener('click', this.handlerWindowClick)
           }
@@ -87,11 +88,33 @@
 
       handlerWindowClick(event) {
         event.stopPropagation()
-        this.isOpened = false
-        window.removeEventListener('click', this.handlerWindowClick)
+        if (!this.elementInDropdown(event.target)) {
+          this.isOpened = false
+          window.removeEventListener('click', this.handlerWindowClick)
+        }
+      },
+
+      elementInDropdown(node) {
+        // console.log(node, node.parentElement)
+        if (node === window || node === null) {
+          return false
+        }
+
+        if (node.classList.contains('dropmenu__content')) {
+          return true
+        }
+
+        return this.elementInDropdown(node.parentElement)
       },
 
       setValue(value) {
+        setTimeout(() => {
+          console.log('close')
+          this.isOpened = false
+          window.removeEventListener('click', this.handlerWindowClick)
+
+        }, 10)
+
         this.value = value
         this.$emit('change', this.value)
       }
