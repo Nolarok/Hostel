@@ -72,7 +72,6 @@
 
     methods: {
       selectItem(value) {
-        console.log('selectItem', value, this.value)
         if (value === 'Не заехал') {
           this.value[0] = this.value.includes('Не заехал') ? 'Заехал' : 'Не заехал'
           // this.$set(this.value, 0, this.value.includes('Не заехал') ? 'Заехал' : 'Не заехал')

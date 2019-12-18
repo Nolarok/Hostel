@@ -81,8 +81,6 @@
           return
         }
 
-        console.log(response)
-
         if (!response || !response.data) {
           this.errors.push('Ошибка сервера.')
           return
@@ -100,6 +98,7 @@
 
         response.data.table.forEach(data => {
           const formatedData = [
+            ['edit_guest'],
             data.status,
             data.checkin, data.time,
             data.checkout, data.name,
@@ -109,7 +108,7 @@
             data.payNotes, data.contacts,
             data.paid, data.comment,
             data.advanced,
-            ['edit_guest', 'remove', 'fill', 'print']
+            ['remove', 'fill', 'print']
           ]
 
           this.CREATE_RECORD({

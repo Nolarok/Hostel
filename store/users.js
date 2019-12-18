@@ -52,6 +52,7 @@ export const state = () => ({
   guests: {
     headers: [
       '#',                       // 1
+      '',                        // 2 alone guest_edit
       'Статус',                  // 2
       'Дата заезда',             // 3  checkin
       'Время',                   // 4  time
@@ -86,10 +87,10 @@ export const state = () => ({
 
     options: {
       cols: {
-        //       'id'    '#'      'С',     'ДЗ',   'Вр',   'ДВ',  'ФИО', 'Гост'  'ФБФ',   'КЗ',    'П',    '№',   'ОО',   'К',   'О',    'КГ',   'Д',   'Действия'
-        types: ['auto', 'auto', 'status', 'date', 'auto', 'date', 'set', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'set', 'auto', 'auto', 'auto', 'actions'],
-        sortable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
-        filterable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
+        //       'id'     '#'    'edit'      'С',     'ДЗ',   'Вр',   'ДВ',  'ФИО', 'Гост'  'ФБФ',   'КЗ',    'П',    '№',   'ОО',   'К',   'О',    'КГ',   'Д',   'Действия'
+        types: ['auto', 'auto', 'actions', 'status', 'date', 'auto', 'date', 'set', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'set', 'auto', 'auto', 'auto', 'actions'],
+        sortable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
+        filterable: [false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false],
         hidden: [0]
       },
 
@@ -110,14 +111,15 @@ export const state = () => ({
   }
 })
 
-//TODO ГЛУБОКОЙ КОПИРОВАНИЕ!!!!!!
-
 export const actions = {
-  async GET_TABLE_DATA({commit}, {table, endpoint}) {
+  async GET_TABLE_DATA({commit}, {table, endpoint, from ,to}) {
     let data
 
     try {
-      data = await this.$axios.$get(endpoint, {
+      data = await this.$axios.$post(endpoint, {
+        from,
+        to,
+      },{
         headers: {
           Authorization: 'Bearer ' + this.$cookies.get('token')
         }
@@ -240,9 +242,12 @@ export const mutations = {
       },
 
       auto: (item, searchItem) => {
-        console.log('item', item)
         return item.toString().includes(searchItem.trim())
       },
+
+      actions: () => {
+        return false
+      }
     }
 
     if ([undefined, ''].includes(value)) {
@@ -426,9 +431,13 @@ export const getters = {
 function formatDate(date) {
   const year = date.getFullYear()
   const month = date.getMonth()
-  const day = date.getDay()
+  const day = date.getDate()
 
-  return `${year}/${month}/${day}`
+  return `${toZero(day)}/${toZero(month + 1)}/${year}`
+}
+
+function toZero(num) {
+  return num > 9 ? num : '0' + num
 }
 
 function stringToDate(date) {
@@ -437,6 +446,6 @@ function stringToDate(date) {
 
   if (!parsedDate) return null
 
-  return `${parsedDate[1]}/${parsedDate[0]}/${parsedDate[2]}`
-
+  // 0 - month, 1 - year, 2 - calendar day
+  return `${parsedDate[2]}/${parsedDate[0]}/${parsedDate[1]}`
 }

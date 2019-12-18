@@ -1,5 +1,8 @@
 <template>
-  <div class="table">
+  <div :class="{
+    'table': true,
+    'table--wide': isWide
+  }">
     <div class="table__filters">
       <c-input
         :options="{
@@ -7,6 +10,42 @@
         }"
         @input="handlerInputSearch"
       />
+      <div
+        class="table__filter-date"
+        v-if="dateFilter"
+      >
+        <span>C: </span>
+
+        <c-drop
+          icon="calendar"
+          :default="formatDate(from)"
+          placeholder="C"
+          size="1.3rem"
+          @change="(val) => {changeDate(val, 'from')}"
+        >
+          <template #default="scope">
+            <c-date-picker
+              :action="scope.controls.setValue"
+            />
+          </template>
+        </c-drop>
+
+        <span>По: </span>
+
+        <c-drop
+          icon="calendar"
+          :default="formatDate(to)"
+          placeholder="По"
+          size="1.3rem"
+          @change="(val) => {changeDate(val, 'to')}"
+        >
+          <template #default="scope">
+            <c-date-picker
+              :action="scope.controls.setValue"
+            />
+          </template>
+        </c-drop>
+      </div>
       <div class="table__filter-rows">
         <span>Записей на странице:</span>
       <c-drop
@@ -98,11 +137,18 @@
       endpoint: {
         type: String,
         required: true
+      },
+      dateFilter: {
+        type: Boolean,
+        default: false
       }
     },
 
     data() {
       return {
+        isWide: true,
+        from: new Date(),
+        to: new Date(+new Date() + 86400000)
       }
     },
 
@@ -127,6 +173,37 @@
         this.FILTER_BY_COL({value, table: this.tableName})
       },
 
+      stringToDate(date) {
+        const regexp = /(\d{2})\/(\d{2})\/(\d{2,4})/
+        const parsedDate = date.match(regexp)
+
+        if (!parsedDate) return null
+
+        return new Date(`${parsedDate[3]}/${parsedDate[2]}/${parsedDate[1]}`)
+      },
+
+      formatDate(date) {
+        const year = date.getFullYear()
+        const month = date.getMonth()
+        const day = date.getDate()
+
+        return `${this.toZero(day)}/${this.toZero(month + 1)}/${year}`
+      },
+
+      toZero(num) {
+        return num > 9 ? num : '0' + num
+      },
+
+      changeDate(date, field) {
+        this[field] = this.stringToDate(date)
+        this.GET_TABLE_DATA({
+          to: this.to,
+          from: this.from,
+          table: this.tableName,
+          endpoint: this.endpoint
+        })
+      },
+
       ...mapMutations('users', [
         'CHANGE_OFFSET',
         'CHANGE_ROWS_PER_PAGE',
@@ -140,8 +217,14 @@
 
     mounted() {
       this.GET_TABLE_DATA({
+        to: this.to,
+        from: this.from,
         table: this.tableName,
-        endpoint: this.endpoint
+        endpoint: this.endpoint,
+      })
+
+      this.$bus.$on('aside-change', (value) => {
+        this.isWide = value
       })
 
     },
@@ -158,6 +241,10 @@
     &__wrapper {
       overflow-x: scroll;
       width: calc(100vw - 31rem);
+    }
+
+    &--wide &__wrapper {
+      width: calc(100vw - 15rem);
     }
 
     &__content {
@@ -212,6 +299,16 @@
         &__value {
           height: 3rem;
         }
+      }
+    }
+
+    &__filter-date {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin: 0 1rem;
+        font-size: 1.4rem;
       }
     }
 

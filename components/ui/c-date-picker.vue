@@ -26,13 +26,22 @@
     },
     methods: {
       formatDate(date) {
-        return date.split('-').reverse().join('/')
+        const _date = new Date(date)
+        const year = _date.getFullYear()
+        const month = _date.getMonth()
+        const day = _date.getDate()
+
+        return `${this.toZero(day)}/${this.toZero(month + 1)}/${year}`
+      },
+
+      toZero(num) {
+        return num > 9 ? num : '0' + num
       },
 
       handlerChange(value) {
         this.value = value
-        this.$emit('change', this.value)
-        this.action(this.value)
+        this.$emit('change', this.formatDate(this.value))
+        this.action(this.formatDate(this.value))
       },
 
       handlerClick() {

@@ -56,7 +56,6 @@
     },
     computed: {
       match() {
-        console.log('this.type', this.type, this.matches)
         return this.matches[this.type]
       }
     }

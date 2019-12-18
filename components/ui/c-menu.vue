@@ -43,7 +43,6 @@
         this.value = this.data[index]
         this.$emit('change', this.value)
         this.action(this.value)
-        console.log('!!!!', this.value)
       }
     },
 

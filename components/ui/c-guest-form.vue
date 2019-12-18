@@ -216,7 +216,7 @@
             >
               <template #default="scope">
                 <c-menu
-                  :data="['Альфа', 'Бэта', 'Дельта', 'Гамма']"
+                  :data="['Альфа', 'Бэта', 'Вега', 'Дельта', 'Гамма']"
                   :default="{index: 1}"
                   :action="scope.controls.setValue"
                 />
@@ -341,6 +341,7 @@
 
       confirm(data) {
         const formatedData = [
+          ['edit_guest'],
           data.status,
           data.checkin, data.time,
           data.checkout, data.name,
@@ -350,7 +351,7 @@
           data.payNotes, data.contacts,
           data.paid, data.comment,
           data.advanced,
-          ['edit_guest', 'remove', 'fill', 'print']
+          ['remove', 'fill', 'print']
         ]
 
         if (this.default) {
@@ -372,24 +373,26 @@
       if (this.default) {
         const rowData = this.GET_ROW_DATA({id: this.default, table: 'guests'})
 
+
+        let index = 3
         this.CHANGE_VALUES({
           form: 'guests',
           data: {
-            status: rowData[2],
-            checkin: rowData[3],
-            time: rowData[4],
-            checkout: rowData[5],
-            name: rowData[6],
-            hotel: rowData[7],
-            fact: rowData[8],
-            category: rowData[9],
-            food: rowData[10],
-            bill: rowData[11],
-            payNotes: rowData[12],
-            contacts: rowData[13],
-            paid: rowData[14],
-            comment: rowData[15],
-            advanced: rowData[16],
+            status: rowData[index++],
+            checkin: rowData[index++],
+            time: rowData[index++],
+            checkout: rowData[index++],
+            name: rowData[index++],
+            hotel: rowData[index++],
+            fact: rowData[index++],
+            category: rowData[index++],
+            food: rowData[index++],
+            bill: rowData[index++],
+            payNotes: rowData[index++],
+            contacts: rowData[index++],
+            paid: rowData[index++],
+            comment: rowData[index++],
+            advanced: rowData[index++],
           }
         })
       } else {

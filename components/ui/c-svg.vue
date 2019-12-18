@@ -28,6 +28,9 @@
   import user from '../../assets/img/user-solid.svg'
   import triangle from '../../assets/img/triangle.svg'
   import note from '../../assets/img/exclamation-solid.svg'
+  import admin from '../../assets/img/account-tie.svg'
+  import guests from '../../assets/img/account-group.svg'
+  import report from '../../assets/img/clipboard-text.svg'
 
   const svgList = {
     "calendar": calendar,
@@ -49,6 +52,9 @@
     "user": user,
     "triangle": triangle,
     "note": note,
+    "admin": admin,
+    "guests": guests,
+    "report": report,
   }
 
   export default {

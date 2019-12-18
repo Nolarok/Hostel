@@ -1,6 +1,13 @@
 <template>
-  <div class="action" id="app">
+  <div
+    class="action"
+    id="app"
+  >
     <c-button
+      v-if="(
+        (info.type !== 'remove') ||
+        ((info.type === 'remove') && (GET_USER_INFO('role') === 'Администратор'))
+      )"
       type="svg"
       :action="getClickHandler(info.type)"
     >
@@ -95,7 +102,8 @@
       }
     },
     computed: {
-      ...mapGetters('users', ['GET_ROW_DATA'])
+      ...mapGetters('users', ['GET_ROW_DATA']),
+      ...mapGetters('user', ['GET_USER_INFO'])
     },
     methods: {
       ...mapMutations('users', ['DELETE_RECORD', 'FILL_ROW', 'CREATE_RECORD', 'EDIT_RECORD', 'CHANGE_CELL_VALUE']),
@@ -210,7 +218,10 @@
       },
 
       async getDoc() {
-        window.open(`http://localhost:3111/api/v1/guests/doc?id=${this.info.id}`)
+        const baseUrl = this.$nuxt.$options.$axios.defaults.baseURL
+        // window.open(`http://ivankoa.loldev.ru/api/v1/guests/doc?id=${this.info.id}`)
+
+        window.open(baseUrl + `/guests/doc?id=${this.info.id}`)
         // let result
         // try {
         //   result = await this.$axios.$get(`/guests/doc`,

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export default function ({route, redirect, app}) {
-  // axios.post('http://ivankoa.loldev.ru/api/v1/users/check', {}, {
-  axios.post('http://localhost:3111/api/v1/users/check', {}, {
+
+  axios.post(app.$axios.defaults.baseURL + '/users/check', {}, {
     headers: {
       Authorization: 'Bearer ' + app.$cookies.get('token')
     }
@@ -17,5 +17,6 @@ export default function ({route, redirect, app}) {
       console.error('middleware', error)
       redirect('/login')
     })
+
   return 0
 }

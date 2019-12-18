@@ -5,7 +5,9 @@
       tableName="guests"
       :toolbarActions="['create_guest', 'upload']"
       endpoint="/guests/"
+      :date-filter="true"
     />
+
   </div>
 </template>
 
