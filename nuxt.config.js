@@ -50,8 +50,8 @@ module.exports = {
   },
 
   axios: {
-    baseURL: 'http://ivankoa.loldev.ru/api/v1',
-    // baseURL: 'http://localhost:3111/api/v1',
+    // baseURL: 'http://ivankoa.loldev.ru/api/v1',
+    baseURL: 'http://localhost:3111/api/v1',
     proxyHeaders: false,
     credentials: false
   },
