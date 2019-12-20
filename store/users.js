@@ -1,4 +1,4 @@
-// import Vue from ''
+import Vue from 'Vue'
 import _ from 'lodash'
 
 export const state = () => ({

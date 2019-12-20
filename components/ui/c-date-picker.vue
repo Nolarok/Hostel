@@ -86,6 +86,12 @@
       color: #ffffff;
       background-color: $color-main;
     }
+  }
 
+  .page--mobile {
+    .datepicker {
+      display: flex;
+      width: 29rem;
+    }
   }
 </style>

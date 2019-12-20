@@ -6,6 +6,7 @@
       :toolbarActions="['create_guest', 'upload']"
       endpoint="/guests/"
       :date-filter="true"
+      add-class="table--guests"
     />
 
   </div>
@@ -47,9 +48,16 @@
     margin-bottom: 2rem;
   }
 
+  .page--mobile {
+    .page-header {
+      font-size: 2.2rem;
+    }
+  }
+
   .page {
     box-sizing: border-box;
     padding: 2rem;
+    min-height: 100vh;
   }
 
   .table {

@@ -33,7 +33,10 @@
           </nuxt-link>
         </li>
 
-        <li class="main-nav__item">
+        <li
+          class="main-nav__item"
+          v-if="GET_USER_INFO('role') !== 'Гость'"
+        >
           <nuxt-link to="/page">
             <span v-if="!isMin">Заселение</span>
             <c-svg
@@ -46,7 +49,10 @@
           </nuxt-link>
         </li>
 
-        <li class="main-nav__item">
+        <li
+          class="main-nav__item"
+          v-if="GET_USER_INFO('role') !== 'Гость'"
+        >
           <nuxt-link to="/reports">
             <span v-if="!isMin">Отчеты</span>
             <c-svg
@@ -92,6 +98,8 @@
 </script>
 
 <style lang="scss">
+  @import "../../assets/scss/vars";
+
   .main-nav {
     width: 25rem;
 
@@ -105,6 +113,45 @@
 
     &--min {
       width: 8rem;
+    }
+  }
+
+  .page--mobile {
+    .main-nav {
+      position: sticky;
+    }
+
+    .main-nav {
+      grid-template-rows: 0 6rem;
+
+      width: 100%;
+
+      &__hamburger {
+        display: none;
+      }
+
+      &__list {
+        display: flex;
+        height: 100%;
+
+      }
+
+      &__item {
+        box-sizing: border-box;
+        height: 100%;
+        border-bottom: .1rem solid $color-gray-1;
+
+        &:last-child {
+          border-right: 0;
+        }
+
+        a {
+          display: flex;
+          justify-content: center;
+
+          padding: 0;
+        }
+      }
     }
   }
 </style>

@@ -1,10 +1,6 @@
 <template>
   <div class="page">
     <h1 class="page-header">Отчеты</h1>
-
-    <!--    <div class="control-panel">-->
-<!--      <div class="control-panel__title">Отчеты:</div>-->
-<!--    </div>-->
     <div class="reports">
       <c-report
         label="Отчет по заселению"

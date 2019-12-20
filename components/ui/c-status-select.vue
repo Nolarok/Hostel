@@ -100,11 +100,17 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss">
   .status-select {
     display: flex;
     justify-content: center;
 
     width: 20rem;
+  }
+
+  .page--mobile {
+    .status-select {
+      width: auto;
+    }
   }
 </style>

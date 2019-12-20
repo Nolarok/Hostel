@@ -59,6 +59,7 @@
   }
 
   .dialog {
+    $r: &;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -103,6 +104,33 @@
       background: #ffffff;
 
       @include border-bottom-radius(.5rem);
+    }
+  }
+
+  .page--mobile {
+    .dialog {
+      position: fixed;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      height: 100%;
+
+      transform: unset;
+
+      @include border-top-radius(0);
+
+      &__header {
+        min-height: 6rem;
+        @include border-top-radius(0);
+      }
+
+      &__wrapper {
+        overflow-y: scroll;
+        /*height: calc(100% - 6rem);*/
+      }
     }
   }
 </style>

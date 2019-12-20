@@ -116,4 +116,30 @@
       }
     }
   }
+
+  .page--mobile {
+    .login {
+      position: fixed;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      width: 100%;
+
+      background-color: $color-contrast;
+      @include border-top-radius(0);
+
+      &__header {
+        @include border-top-radius(0);
+      }
+
+      &__form {
+        .form-input {
+          grid-template-columns: 10rem 1fr;
+        }
+      }
+    }
+  }
 </style>

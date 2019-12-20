@@ -1,6 +1,7 @@
 <template>
   <tr
     :style="{backgroundColor: GET_ROW_COLOR({id: info.id, table: tableName})}"
+    class="table__row"
   >
     <c-cell
       v-for="(cell, index) in info.data"

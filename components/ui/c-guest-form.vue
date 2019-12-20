@@ -4,7 +4,7 @@
     :cancel="cancel"
     :confirm="confirm"
     :additional-data="{id: this.default}"
-    addClass="guests"
+    addClass="guests guests--mobile"
     :endpoint="this.default ? '/guests/update' : '/guests/create'"
   >
     <template #default="formScope">
@@ -35,6 +35,7 @@
                 :default="scope.controls.default"
                 placeholder="Дата"
                 size="1.3rem"
+                :is-calendar="true"
                 @change="scope.controls.changeValue"
               >
                 <template #default="scope">
@@ -82,6 +83,7 @@
                 :default="scope.controls.default"
                 placeholder="Дата"
                 size="1.3rem"
+                :is-calendar="true"
                 @change="scope.controls.changeValue"
               >
                 <template #default="scope">
@@ -432,6 +434,25 @@
 
     .form-input.area {
       align-items: flex-start;
+    }
+  }
+
+  .guests--mobile.form {
+    width: 100%;
+
+    .form {
+      &__content {
+        display: block;
+      }
+
+      &__row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-input,
+    .form-input.min {
+      grid-template-columns: 50% 50%;
     }
   }
 </style>

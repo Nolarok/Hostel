@@ -5,6 +5,7 @@
       tableName="users"
       :toolbarActions="['create_user']"
       endpoint="/users/"
+      add-class="table--users"
     />
   </div>
 </template>

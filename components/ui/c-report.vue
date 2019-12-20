@@ -9,10 +9,12 @@
         :default="from"
         placeholder="От"
         size="1.3rem"
+        :is-calendar="true"
         @change="(value) => {this.from = value}"
       >
         <template #default="scope">
           <c-date-picker
+            :is-calendar="true"
             :action="scope.controls.setValue"
           />
         </template>
@@ -26,6 +28,7 @@
         :default="to"
         placeholder="По"
         size="1.3rem"
+        :is-calendar="true"
         @change="(value) => {this.to = value}"
       >
         <template #default="scope">
@@ -37,7 +40,8 @@
     </div>
     <c-button
       :action="handlerClick"
-    >Загрузить</c-button>
+    >Загрузить
+    </c-button>
 
   </div>
 </template>
@@ -94,6 +98,8 @@
 </script>
 
 <style lang="scss">
+  @import "../../assets/scss/vars";
+
   .report {
     $r: '.report';
 
@@ -139,6 +145,39 @@
       height: 100%;
 
       margin-left: 2rem;
+    }
+  }
+
+  .page--mobile {
+    .report {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      height: auto;
+
+      padding: 2rem 0;
+
+      border-bottom: .1rem solid $color-main;
+      border-top: .1rem solid $color-main;
+
+
+      &__label {
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      &__date {
+        flex: 1 0 100%;
+        justify-content: center;
+        margin-bottom: 1rem;
+        height: 3rem;
+      }
+
+      &__field-title {
+        width: 3rem;
+        padding: 0 !important;
+      }
     }
   }
 </style>

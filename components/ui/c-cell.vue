@@ -1,5 +1,8 @@
 <template>
-  <td v-if="!info.hidden">
+  <td
+    v-if="!info.hidden"
+    class="table__cell"
+  >
     {{['auto', 'date'].includes(info.type) ? info.data : null}}
 
     <c-actions

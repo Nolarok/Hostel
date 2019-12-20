@@ -167,7 +167,7 @@
     }
 
     .dropmenu {
-      width: 100%;
+      width: calc(100% - 5rem);
     }
 
     .dialog__wrapper {
@@ -195,7 +195,6 @@
     &__list {
       box-sizing: border-box;
       flex-direction: column;
-
 
       margin: 0;
       padding: 0;

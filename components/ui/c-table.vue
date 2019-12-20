@@ -1,7 +1,9 @@
 <template>
   <div :class="{
     'table': true,
-    'table--wide': isWide
+    'table__test': true,
+    'table--wide': isWide,
+    [addClass]: !!addClass
   }">
     <div class="table__filters">
       <c-input
@@ -14,13 +16,14 @@
         class="table__filter-date"
         v-if="dateFilter"
       >
+        <div>
         <span>C: </span>
-
         <c-drop
           icon="calendar"
           :default="formatDate(from)"
           placeholder="C"
           size="1.3rem"
+          :is-calendar="true"
           @change="(val) => {changeDate(val, 'from')}"
         >
           <template #default="scope">
@@ -29,7 +32,8 @@
             />
           </template>
         </c-drop>
-
+        </div>
+        <div>
         <span>По: </span>
 
         <c-drop
@@ -37,6 +41,7 @@
           :default="formatDate(to)"
           placeholder="По"
           size="1.3rem"
+          :is-calendar="true"
           @change="(val) => {changeDate(val, 'to')}"
         >
           <template #default="scope">
@@ -45,40 +50,41 @@
             />
           </template>
         </c-drop>
+        </div>
       </div>
       <div class="table__filter-rows">
         <span>Записей на странице:</span>
-      <c-drop
-        @change="handlerChangeRowsPerPage"
-        :default="10"
-      >
-        <template #default="scope">
-          <c-menu
-            :data="[1, 3, 5, 10, 15, 20]"
-            :default="{index: 1}"
-            :action="scope.controls.setValue"
-          />
-        </template>
-      </c-drop>
+        <c-drop
+          @change="handlerChangeRowsPerPage"
+          :default="10"
+        >
+          <template #default="scope">
+            <c-menu
+              :data="[1, 3, 5, 10, 15, 20]"
+              :default="{index: 1}"
+              :action="scope.controls.setValue"
+            />
+          </template>
+        </c-drop>
       </div>
     </div>
 
     <div class="table__wrapper">
       <table class="table__content">
-      <thead>
+        <thead>
         <c-head-row
           :info="GET_HEADERS({table: tableName})"
         />
-      </thead>
-      <tbody>
-      <c-row
-        v-for="(row, index) in GET_TABLE_HEIGHT({table: tableName})"
-        :key="row[0]"
-        :info="GET_ROW_INFO({position: index, table: tableName})"
-        :tableName="tableName"
-      />
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <c-row
+          v-for="(row, index) in GET_TABLE_HEIGHT({table: tableName})"
+          :key="row[0]"
+          :info="GET_ROW_INFO({position: index, table: tableName})"
+          :tableName="tableName"
+        />
+        </tbody>
+      </table>
     </div>
 
     <div class="table__footer">
@@ -95,13 +101,6 @@
     </div>
   </div>
 </template>
-<!--<c-drop icon="calendar">-->
-<!--  <template #default="scope">-->
-<!--    <c-date-picker-->
-<!--      :action="scope.controls.setValue"-->
-<!--    />-->
-<!--  </template>-->
-<!--</c-drop>-->
 
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
@@ -124,7 +123,8 @@
     components: {
       CTableToolbar,
       CDialog,
-      CSvg, CButton, CDatePicker, CMenu, CDrop, CInput, CDropdown, CHeadRow, CPagination, CRow, CCell},
+      CSvg, CButton, CDatePicker, CMenu, CDrop, CInput, CDropdown, CHeadRow, CPagination, CRow, CCell
+    },
     props: {
       tableName: {
         type: String,
@@ -140,6 +140,11 @@
       },
       dateFilter: {
         type: Boolean,
+        default: false
+      },
+
+      addClass: {
+        type: [String, Boolean],
         default: false
       }
     },
@@ -204,6 +209,12 @@
         })
       },
 
+      handlerResize() {
+        if (window.innerWidth <= 600) {
+          this.isWide = false
+        }
+      },
+
       ...mapMutations('users', [
         'CHANGE_OFFSET',
         'CHANGE_ROWS_PER_PAGE',
@@ -227,7 +238,12 @@
         this.isWide = value
       })
 
+      window.addEventListener('resize', this.handlerResize)
     },
+
+    destroyed() {
+      window.removeEventListener('resize', this.handlerResize)
+    }
   }
 </script>
 
@@ -235,6 +251,7 @@
   @import "../../assets/scss/vars";
 
   .table {
+    $r: &;
     position: relative;
     box-sizing: border-box;
 
@@ -329,7 +346,165 @@
       align-items: center;
 
       margin: 2rem 0;
-      padding:  0 2rem;
+      padding: 0 2rem;
+    }
+  }
+
+  .page--mobile {
+    .table {
+      $r: '.table';
+
+      &__filters {
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+
+        > div {
+          flex: 1 0 100%;
+          margin-bottom: 1rem;
+        }
+      }
+
+      &__filter-date {
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+
+
+        > div {
+          display: flex;
+          flex: 1 0 100%;
+          align-items: center;
+          justify-content: center;
+
+          &:first-child {
+            margin-bottom: 1rem;
+          }
+        }
+
+        span {
+          width: 2rem;
+        }
+      }
+
+      &__filter-rows {
+        justify-content: space-between;
+      }
+
+      &__wrapper {
+        width: 100%;
+      }
+
+      th {
+        display: none;
+      }
+
+      &__row {
+        display: flex;
+        flex-wrap: wrap;
+
+        margin-bottom: .5rem;
+
+        border: .1rem solid $color-main;
+
+
+        &:first-child {
+          /*display: none;*/
+        }
+
+        &:nth-child(2) {
+          border-top: .1rem solid $color-main;
+        }
+      }
+
+      &--guests {
+        #{$r}__cell {
+          display: none;
+          border: none;
+
+          &:nth-child(2) { // edit
+            display: block;
+            border-bottom: .1rem dashed $color-main;
+            border-right: .1rem dashed $color-main;
+            flex: .3 1 auto;
+          }
+
+          &:nth-child(3) { // status
+            display: block;
+            border-bottom: .1rem dashed $color-main;
+            border-right: .1rem dashed $color-main;
+            flex: .3 1 auto;
+          }
+
+          &:nth-child(4) { // checkin
+            display: block;
+            flex: .5 0 auto;
+
+            border-bottom: .1rem dashed $color-main;
+            text-align: center;
+          }
+
+          &:nth-child(7) { // name
+            display: block;
+            flex: 1 0 100%;
+
+            > div {
+              text-align: center;
+            }
+          }
+
+          &:nth-child(18) { // actions
+            flex: 1 0 100%;
+            display: flex;
+
+            border-top: .1rem dashed $color-main;
+
+            > .actions {
+              display: flex;
+              justify-content: center;
+              width: 100%;
+            }
+          }
+
+        }
+      }
+
+      &--users {
+        #{$r}__cell {
+          flex: 1 0 33.33%;
+          text-align: center;
+
+          &:nth-child(1) {
+            display: none;
+          }
+
+          &:nth-child(n + 5) {
+            flex: 1 0 100%;
+          }
+
+        }
+      }
+
+      &__footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .table__toolbar {
+          flex: 1 0 100%;
+          justify-content: center;
+          margin-bottom: 1rem;
+        }
+
+        .pagination {
+          flex: 1 0 100%;
+          flex-wrap: wrap;
+          justify-content: center;
+
+          > li {
+            margin-bottom: 1rem;
+          }
+        }
+      }
     }
   }
 </style>

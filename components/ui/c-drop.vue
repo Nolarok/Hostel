@@ -22,7 +22,10 @@
     <transition name="fade" mode="out-in" appear>
       <div
         v-if="isOpened"
-        class="dropmenu__content"
+        :class="{
+          'dropmenu__content': true,
+          'dropmenu__content--calendar': isCalendar
+        }"
       >
         <slot :controls="{setValue}">
 
@@ -39,7 +42,6 @@
     name: "c-drop",
     components: {CSvg},
     props: {
-
       icon: {
         type: String,
         default: 'triangle'
@@ -63,6 +65,11 @@
         type: String,
         default: ''
       },
+
+      isCalendar: {
+        type: Boolean,
+        default: false
+      }
     },
 
     data() {
@@ -192,4 +199,22 @@
       z-index: 10;
     }
   }
+
+  .page--mobile {
+    .dropmenu {
+      &__content {
+        left: unset;
+        right: 0;
+
+        &--calendar {
+          position: fixed;
+
+          top: 12rem;
+          left: calc(50% - 14.5rem);
+          min-width: auto;
+        }
+      }
+    }
+  }
+
 </style>

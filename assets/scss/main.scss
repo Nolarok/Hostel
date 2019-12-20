@@ -21,20 +21,6 @@ body {
   color: $color-main;
 }
 
-.main-container {
-  display: grid;
-
-  grid-template-areas:
-    "aside header"
-    "aside main"
-    "footer footer";
-
-  grid-template-rows: 10rem 1fr 3rem;
-  grid-template-columns: auto 1fr;
-
-  height: 100vh;
-}
-
 .main-header {
   grid-area: header;
   display: flex;

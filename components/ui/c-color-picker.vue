@@ -120,4 +120,12 @@
       }
     }
   }
+
+  .page--mobile {
+    .color-picker {
+      &__palette {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
 </style>

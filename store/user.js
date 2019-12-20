@@ -1,5 +1,5 @@
 export const state = () => ({
-  name: '',
+  name: 'Гость',
   role: 'Гость'
 })
 
@@ -15,7 +15,7 @@ export const mutations = {
 
   CLEAR(state) {
     state.name = 'Гость'
-    state.role = ''
+    state.role = 'Гость'
   }
 }
 

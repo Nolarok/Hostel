@@ -140,4 +140,12 @@
     }
   }
 
+  .page--mobile {
+    .table--guests {
+      .table__toolbar-button:last-child {
+        display: none;
+      }
+    }
+  }
+
 </style>
